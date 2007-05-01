@@ -3,6 +3,9 @@ use strict;
 use warnings;
 use Carp;
 
+use Email::VirusScan::Result;
+use Email::VirusScan::ResultSet;
+
 our $VERSION = '0.001';
 
 # We don't use Module::Pluggable.  Most users of this module will have
@@ -35,9 +38,9 @@ sub new
 	};
 	
 	if( exists $conf->{order} ) {
-		$self->{_backends} = @backends{ @{$conf->{order}} };
+		$self->{_backends} = [ @backends{ @{$conf->{order}} } ];
 	} else {
-		$self->{_backends} = values %backends;
+		$self->{_backends} = [ values %backends ];
 	}
 
 	return bless $self, $class;
@@ -47,14 +50,14 @@ sub scan
 {
 	my ($self, $ea) = @_;
 
-	my $result = Email::VirusScan::Result->new();
+	my $result = Email::VirusScan::ResultSet->new();
 	
 	for my $back ( @{$self->{_backends}} ) {
 		$result->add(
 			$back->scan( $ea )
 		);
 		if( ! $self->{always_scan}
-		    && $result->is_bad() ) {
+		    && $result->is_virus() ) {
 			last;
 		}
 	}
@@ -73,7 +76,7 @@ sub scan_path
 			$back->scan_path( $path )
 		);
 		if( ! $self->{always_scan}
-		    && $result->is_bad() ) {
+		    && $result->is_virus() ) {
 			last;
 		}
 	}
@@ -92,7 +95,7 @@ Email::VirusScan - Unified interface for virus scanning of email messages
 
     my $scanner = Email::VirusScan->new({
 	engines => {
-		'ClamDaemon' => {
+		'ClamAV::Daemon' => {
 			socket => '/var/run/clamav/clamd.ctl',
 		},
 		'FSecure' => {
@@ -105,7 +108,7 @@ Email::VirusScan - Unified interface for virus scanning of email messages
 
 	},
 
-	order => [ 'ClamDaemon', 'FProtD', 'FSecure' ],
+	order => [ 'ClamAV::Daemon', 'FProtD', 'FSecure' ],
 
 	always_scan => 0,
     });
@@ -142,8 +145,7 @@ Reference to hash of backend virus scan engines to be used, and their
 specific configurations. 
 
 Keys should be the class name of a L<Email::VirusScan::Base> subclass,
-optionally with the L<Email::VirusScan> prefix removed if backend is
-under that namespace.
+with the L<Email::VirusScan> prefix removed.
 
 Values should be another hash reference containing engine-specific
 configuration.  This will vary by backend, but generally requires at
