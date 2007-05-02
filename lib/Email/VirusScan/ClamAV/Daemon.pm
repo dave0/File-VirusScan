@@ -22,7 +22,7 @@ sub new
 	}
 
 	if( exists $conf->{zip_fallback} ) {
-		unless( blessed( $conf->{zip_fallback} ) && $conf->{fallback}->isa('Email::VirusScan::Base') ) {
+		unless( blessed( $conf->{zip_fallback} ) && $conf->{zip_fallback}->isa('Email::VirusScan::Base') ) {
 			croak q{The 'zip_fallback' config value must be an object inheriting from Email::VirusScan::Base};
 		}
 	}
