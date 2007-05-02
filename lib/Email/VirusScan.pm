@@ -69,7 +69,7 @@ sub scan_path
 {
 	my ($self, $path) = @_;
 
-	my $result = Email::VirusScan::Result->new();
+	my $result = Email::VirusScan::ResultSet->new();
 	
 	for my $back ( @{$self->{_backends}} ) {
 		$result->add(
