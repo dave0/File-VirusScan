@@ -3,6 +3,53 @@ use strict;
 use warnings;
 use Carp;
 
+use Email::Abstract;
+use Scalar::Util 'blessed';
+use Cwd qw( abs_path cwd );
+use File::Temp 'tempfile';
+
+sub scan
+{
+	my ($self, $email) = @_; 
+
+	unless( blessed( $email ) && $email->isa('Email::Abstract') ) {
+		croak q{argument to scan() must be an Email::Abstract object};
+	}
+
+	my $path = undef;
+	my $tmpfile_used = 0;
+	if( $email->can('get_body_path') ) {
+		# Good, it's a new enough Email::Abstract
+		$path = $email->get_body_path();
+		if( abs_path( $path ) ne $path ) {
+			carp "Path $path is not absolute; qualifying with " . cwd();
+			$path = abs_path($path);
+		}
+	} else {
+		# No path... time to make one
+		$tmpfile_used = 1;
+		my $fh;
+		($fh, $path) = tempfile();
+		if( ! $fh->print( $email->as_string ) ) {
+			$fh->close;
+			croak q{Couldn't write email object to temp file};
+		}
+
+		if( ! $fh->close ) {
+			croak "Couldn't close filehandle: $!";
+		}
+	}
+
+	my $result = $self->scan_path( $path );
+
+	if( $tmpfile_used ) {
+		if( ! unlink $path ) {
+			carp "Couldn't unlink $path: $!";
+		}
+	}
+
+	return $result;
+}
 
 1;
 __END__
