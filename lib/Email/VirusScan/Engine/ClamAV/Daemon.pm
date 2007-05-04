@@ -1,4 +1,4 @@
-package Email::VirusScan::ClamAV::Daemon;
+package Email::VirusScan::Engine::ClamAV::Daemon;
 use strict;
 use warnings;
 use Carp;
@@ -142,7 +142,7 @@ __END__
 
 =head1 NAME
  
-Email::VirusScan::ClamAV::Daemon - Email::VirusScan backend for scanning with clamd
+Email::VirusScan::Engine::ClamAV::Daemon - Email::VirusScan backend for scanning with clamd
  
 =head1 SYNOPSIS
  

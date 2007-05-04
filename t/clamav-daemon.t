@@ -4,21 +4,21 @@ use Cwd 'getcwd';
 use File::Temp ();
 
 BEGIN {
-	use_ok('Email::VirusScan::ClamAV::Daemon');
+	use_ok('Email::VirusScan::Engine::ClamAV::Daemon');
 }
 
 # Existence of methods
-can_ok('Email::VirusScan::ClamAV::Daemon', qw( new scan scan_path ) );
+can_ok('Email::VirusScan::Engine::ClamAV::Daemon', qw( new scan scan_path ) );
 
 # Constructor failures
-dies_ok { Email::VirusScan::ClamAV::Daemon->new() } 'Constructor dies with no arguments';
+dies_ok { Email::VirusScan::Engine::ClamAV::Daemon->new() } 'Constructor dies with no arguments';
 like( $@, qr/Must supply a 'socket_name' config value/, ' ... error as expected');
 
 # Constructor success
 my $s;
-lives_ok { $s = Email::VirusScan::ClamAV::Daemon->new({ socket_name => '/dev/null'}); } 'new() lives';
-isa_ok( $s, 'Email::VirusScan::ClamAV::Daemon');
-isa_ok( $s, 'Email::VirusScan::Base');
+lives_ok { $s = Email::VirusScan::Engine::ClamAV::Daemon->new({ socket_name => '/dev/null'}); } 'new() lives';
+isa_ok( $s, 'Email::VirusScan::Engine::ClamAV::Daemon');
+isa_ok( $s, 'Email::VirusScan::Engine');
 
 # Bad socket
 dies_ok { $s->_get_socket() } '_get_socket() dies (invalid socket_name given)';
@@ -31,7 +31,7 @@ SKIP: {
 	skip 'No clamd socket available', 8 unless -S $sockfile;
 
 	# Test with good socket
-	$s = Email::VirusScan::ClamAV::Daemon->new({
+	$s = Email::VirusScan::Engine::ClamAV::Daemon->new({
 		socket_name => $sockfile,
 	});
 	my $sock;
