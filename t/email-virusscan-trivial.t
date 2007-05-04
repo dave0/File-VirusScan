@@ -1,4 +1,4 @@
-use Test::More tests => 14;
+use Test::More tests => 15;
 use Test::Exception;
 
 use Email::Abstract;
@@ -27,8 +27,10 @@ my $s;
 lives_ok { $s = Email::VirusScan->new({ engines => { Bogus => {} } }); } 'Constructor lives with trivial non-working engine';
 my $result = $s->scan_path('/');
 isa_ok( $result, 'Email::VirusScan::ResultSet');
-ok( $result->is_error(), 'Result is an error' );
-is_deeply( $result->get_errors(), [ 'bogus scanner looking at /' ], 'Error string is what we expected');
+ok( $result->has_error(), 'Result is an error' );
+my ($err) = $result->get_error();
+isa_ok( $err, 'Email::VirusScan::Result');
+is( $err->get_data(), 'bogus scanner looking at /', 'Error string is what we expected');
 
 my $test_msg = <<'EOM';
 To: postmaster
@@ -39,5 +41,6 @@ EOM
 
 $result = $s->scan( Email::Abstract->new( $test_msg ) );
 isa_ok( $result, 'Email::VirusScan::ResultSet');
-ok( $result->is_error(), 'Result is an error' );
-like( $result->get_errors->[0], qr{^bogus scanner looking at /tmp/(?:[A-Za-z0-9]+)$}, 'Error string is what we expected');
+ok( $result->has_error(), 'Result is an error' );
+like( ($result->get_error)[0]->get_data, qr{^bogus scanner looking at /tmp/(?:[A-Za-z0-9]+)$}, 'Error string is what we expected');
+1;

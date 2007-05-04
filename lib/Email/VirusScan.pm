@@ -57,7 +57,7 @@ sub scan
 			$back->scan( $ea )
 		);
 		if( ! $self->{always_scan}
-		    && $result->is_virus() ) {
+		    && $result->has_virus() ) {
 			last;
 		}
 	}
@@ -76,7 +76,7 @@ sub scan_path
 			$back->scan_path( $path )
 		);
 		if( ! $self->{always_scan}
-		    && $result->is_virus() ) {
+		    && $result->has_virus() ) {
 			last;
 		}
 	}
@@ -96,7 +96,7 @@ Email::VirusScan - Unified interface for virus scanning of email messages
     my $scanner = Email::VirusScan->new({
 	engines => {
 		'ClamAV::Daemon' => {
-			socket => '/var/run/clamav/clamd.ctl',
+			socket_name => '/var/run/clamav/clamd.ctl',
 		},
 		'FSecure' => {
 			path   => '/usr/local/bin/fsav
