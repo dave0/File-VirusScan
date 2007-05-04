@@ -21,7 +21,7 @@ isa_ok( $s, 'Email::VirusScan::ClamAV::Daemon');
 isa_ok( $s, 'Email::VirusScan::Base');
 
 # Bad socket
-dies_ok { $s->get_socket() } 'get_socket() dies (invalid socket_name given)';
+dies_ok { $s->_get_socket() } '_get_socket() dies (invalid socket_name given)';
 like( $@, qr{Could not connect to clamd daemon at /dev/null}, '... error as expected');
 
 # TODO: needs prompt from build process to avoid tests if no daemon available
@@ -35,7 +35,7 @@ SKIP: {
 		socket_name => $sockfile,
 	});
 	my $sock;
-	lives_ok { $sock = $s->get_socket() } 'Real socket can be spoken to';
+	lives_ok { $sock = $s->_get_socket() } 'Real socket can be spoken to';
 	$sock->close;
 
 	# Try with unqualified path
@@ -51,4 +51,7 @@ SKIP: {
 	lives_ok { $result = $s->scan_path( $testdir) } "scan_path($testdir) lives";
 	isa_ok( $result, 'Email::VirusScan::Result');
 	ok( $result->is_clean(), 'Result is clean' );
+	if( ! $result->is_clean() ) {
+		diag( $result->get_data() );
+	}
 }
