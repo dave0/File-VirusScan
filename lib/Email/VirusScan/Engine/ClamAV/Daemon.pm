@@ -3,8 +3,8 @@ use strict;
 use warnings;
 use Carp;
 
-use Email::VirusScan::Base;
-use base qw( Email::VirusScan::Base );
+use Email::VirusScan::Engine;
+use base qw( Email::VirusScan::Engine );
 
 use IO::Socket::UNIX;
 use IO::Select;
@@ -22,8 +22,8 @@ sub new
 	}
 
 	if( exists $conf->{zip_fallback} ) {
-		unless( blessed( $conf->{zip_fallback} ) && $conf->{zip_fallback}->isa('Email::VirusScan::Base') ) {
-			croak q{The 'zip_fallback' config value must be an object inheriting from Email::VirusScan::Base};
+		unless( blessed( $conf->{zip_fallback} ) && $conf->{zip_fallback}->isa('Email::VirusScan::Engine') ) {
+			croak q{The 'zip_fallback' config value must be an object inheriting from Email::VirusScan::Engine};
 		}
 	}
 

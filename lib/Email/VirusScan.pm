@@ -6,7 +6,7 @@ use Carp;
 use Email::VirusScan::Result;
 use Email::VirusScan::ResultSet;
 
-our $VERSION = '0.001';
+our $VERSION = '0.002';
 
 # We don't use Module::Pluggable.  Most users of this module will have
 # one or two virus scanners, with the other half-dozen or so plugins
@@ -24,7 +24,7 @@ sub new
 	# Load and initialise our backend engines
 	while( my ($backend, $backend_conf) = each %{ $conf->{engines} } ) {
 		$backend =~ s/[^A-Za-z0-9_]//;
-		my $backclass = "Email::VirusScan::$backend";
+		my $backclass = "Email::VirusScan::Engine::$backend";
 		eval qq{use $backclass;};  ## no critic(StringyEval)
 		if( $@ ) {                 ## no critic(PunctuationVars)
 			croak "Unable to find class $backclass for backend '$backend'";
@@ -144,8 +144,8 @@ Required configuration options are:
 Reference to hash of backend virus scan engines to be used, and their
 specific configurations. 
 
-Keys should be the class name of a L<Email::VirusScan::Base> subclass,
-with the L<Email::VirusScan> prefix removed.
+Keys should be the class name of a L<Email::VirusScan::Engine> subclass,
+with the L<Email::VirusScan::Engine> prefix removed.
 
 Values should be another hash reference containing engine-specific
 configuration.  This will vary by backend, but generally requires at
@@ -193,7 +193,7 @@ Returns an Email::VirusScan::result object, which can be queried for status.
  
 =head1 DEPENDENCIES
 
-L<Email::Abstract>, L<Email::VirusScan::Base>, L<Email::VirusScan::Result>
+L<Email::Abstract>, L<Email::VirusScan::Engine>, L<Email::VirusScan::Result>
 
 =head1 INCOMPATIBILITIES
 

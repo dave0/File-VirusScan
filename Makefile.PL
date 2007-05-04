@@ -10,6 +10,8 @@ WriteMakefile(
     PL_FILES            => {},
     PREREQ_PM => {
         'Test::More' => 0,
+	'File::Temp'=> 0,
+	'Scalar::Util' => 0,
 	'Email::Abstract' => 0,
 	'Data::ResultSet' => 0,
     },
