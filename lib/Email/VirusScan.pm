@@ -10,7 +10,7 @@ our $VERSION = '0.002';
 
 # We don't use Module::Pluggable.  Most users of this module will have
 # one or two virus scanners, with the other half-dozen or so plugins
-# going unused. 
+# going unused.
 sub new
 {
 	my ($class, $conf) = @_;
@@ -36,7 +36,7 @@ sub new
 	my $self = {
 		always_scan => $conf->{always_scan},
 	};
-	
+
 	if( exists $conf->{order} ) {
 		$self->{_backends} = [ @backends{ @{$conf->{order}} } ];
 	} else {
@@ -51,7 +51,7 @@ sub scan
 	my ($self, $ea) = @_;
 
 	my $result = Email::VirusScan::ResultSet->new();
-	
+
 	for my $back ( @{$self->{_backends}} ) {
 		$result->add(
 			$back->scan( $ea )
@@ -70,7 +70,7 @@ sub scan_path
 	my ($self, $path) = @_;
 
 	my $result = Email::VirusScan::ResultSet->new();
-	
+
 	for my $back ( @{$self->{_backends}} ) {
 		$result->add(
 			$back->scan_path( $path )
@@ -88,9 +88,9 @@ sub scan_path
 __END__
 
 =head1 NAME
- 
+
 Email::VirusScan - Unified interface for virus scanning of email messages
- 
+
 =head1 SYNOPSIS
 
     my $scanner = Email::VirusScan->new({
@@ -130,10 +130,10 @@ more third party (ie: not yours, not mine) virus scanners.
 
 =head1 METHODS
 
-=head2 new ( { config data } ) 
+=head2 new ( { config data } )
 
 Creates a new Email::VirusScan object, using configuration data in the
-provided hashref. 
+provided hashref.
 
 Required configuration options are:
 
@@ -142,7 +142,7 @@ Required configuration options are:
 =item engines
 
 Reference to hash of backend virus scan engines to be used, and their
-specific configurations. 
+specific configurations.
 
 Keys should be the class name of a L<Email::VirusScan::Engine> subclass,
 with the L<Email::VirusScan::Engine> prefix removed.
@@ -190,7 +190,7 @@ just plain don't trust your virus scanning engine to properly unpack a
 message and scan its subparts, and wish to do it yourself first.
 
 Returns an Email::VirusScan::result object, which can be queried for status.
- 
+
 =head1 DEPENDENCIES
 
 L<Email::Abstract>, L<Email::VirusScan::Engine>, L<Email::VirusScan::Result>
@@ -198,10 +198,10 @@ L<Email::Abstract>, L<Email::VirusScan::Engine>, L<Email::VirusScan::Result>
 =head1 INCOMPATIBILITIES
 
 There are no known incompatibilities with this module.
- 
+
 =head1 BUGS AND LIMITATIONS
- 
-There are no known bugs in this module. 
+
+There are no known bugs in this module.
 Please report problems to the author.
 Patches are welcome.
 
@@ -209,7 +209,7 @@ Patches are welcome.
 
 You can find documentation for this module with the perldoc command.
 
-    perldoc Email::VirusScan 
+    perldoc Email::VirusScan
 
 You can also look for information at:
 
@@ -232,12 +232,12 @@ L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Email-VirusScan>
 L<http://search.cpan.org/dist/Email-VirusScan>
 
 =back
- 
+
 =head1 AUTHOR
- 
+
 Dave O'Neill (dmo@roaringpenguin.com)
 David Skoll  (dfs@roaringpenguin.com>
- 
+
 =head1 LICENCE AND COPYRIGHT
 
 Copyright 2007 Roaring Penguin Software

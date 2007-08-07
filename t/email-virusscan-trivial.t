@@ -3,7 +3,7 @@ use Test::Exception;
 
 use Email::Abstract;
 
-BEGIN { 
+BEGIN {
 	use_ok('Email::VirusScan');
 	use_ok('Email::VirusScan::Engine');
 	use_ok('Email::VirusScan::Result');
@@ -15,7 +15,7 @@ like( $@, qr/Must supply an 'engines' value to constructor/, '... error as expec
 dies_ok { Email::VirusScan->new({ engines => { wookie => {} }}) } 'Constructor dies with nonexistent engine';
 like( $@, qr/Unable to find class Email::VirusScan::Engine::wookie for backend 'wookie'/, '... error as expected');
 
-{ 
+{
 	package Email::VirusScan::Engine::Bogus;
 	use base qw( Email::VirusScan::Engine );
 	sub new  { bless {}, $_[0]; }

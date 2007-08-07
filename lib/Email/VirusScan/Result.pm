@@ -59,7 +59,7 @@ sub is_clean
 
 sub get_data
 {
-	my ($self) = @_; 
+	my ($self) = @_;
 	return $self->{data};
 }
 
@@ -67,11 +67,11 @@ sub get_data
 __END__
 
 =head1 NAME
- 
+
 Email::VirusScan::Result - <One line description of module's purpose>
- 
+
 =head1 SYNOPSIS
- 
+
     use Email::VirusScan::Result;
 
     # It's good
@@ -89,13 +89,13 @@ Email::VirusScan::Result - <One line description of module's purpose>
     } elsif ( $result->is_virus() ) {
 	...
     }
-  
+
 =head1 DESCRIPTION
 
 Encapsulate all return data from a virus scan.  Currently, just holds
 clean/virus/error status, along with a virus name or error message.
- 
-=head1 CLASS METHODS 
+
+=head1 CLASS METHODS
 
 =head2 clean ( )
 
@@ -120,32 +120,32 @@ Main constructor.
 
 Returns true if neither is_error nor is_virus was set.
 
-=head2 is_error ( ) 
+=head2 is_error ( )
 
 Returns true if is_error flag was set by constructor.
 
-=head2 is_virus ( ) 
+=head2 is_virus ( )
 
 Returns true if is_virus flag was set by constructor.
 
-=head2 get_data ( ) 
+=head2 get_data ( )
 
 Return data value.
 
 =head1 INCOMPATIBILITIES
 
 There are no known incompatibilities with this module.
- 
+
 =head1 BUGS AND LIMITATIONS
- 
-There are no known bugs in this module. 
+
+There are no known bugs in this module.
 Please report problems to the author.
 Patches are welcome.
- 
+
 =head1 AUTHOR
- 
+
 Dave O'Neill (dmo@roaringpenguin.com)
- 
+
 =head1 LICENCE AND COPYRIGHT
- 
+
 Copyright (c) 2007 Roaring Penguin Software, Inc.  All rights reserved.

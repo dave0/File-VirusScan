@@ -33,51 +33,51 @@ Email::VirusScan::ResultSet - Holds Email::VirusScan::Result objects.
 
 =head1 METHODS
 
-=head2 all_virus ( ) 
+=head2 all_virus ( )
 
 True if all results return true for ->is_virus()
 
-=head2 all_error ( ) 
+=head2 all_error ( )
 
 True if all results return true for ->is_error()
 
-=head2 all_clean ( ) 
+=head2 all_clean ( )
 
 True if all results return true for ->is_clean()
 
-=head2 has_virus ( ) 
+=head2 has_virus ( )
 
 True if at least one result returns true for ->is_virus()
 
-=head2 has_error ( ) 
+=head2 has_error ( )
 
 True if at least one result returns true for ->is_error()
 
-=head2 has_clean ( ) 
+=head2 has_clean ( )
 
 True if at least one result returns true for ->is_clean()
 
-=head2 get_clean ( ) 
+=head2 get_clean ( )
 
 Return all result objects for which ->is_clean is true
 
-=head2 get_not_clean ( ) 
+=head2 get_not_clean ( )
 
 Return all result objects for which ->is_clean is false
 
-=head2 get_error ( ) 
+=head2 get_error ( )
 
 Return all result objects for which ->is_error is true
 
-=head2 get_not_error ( ) 
+=head2 get_not_error ( )
 
 Return all result objects for which ->is_error is false
 
-=head2 get_virus ( ) 
+=head2 get_virus ( )
 
 Return all result objects for which ->is_virus is true
 
-=head2 get_not_virus ( ) 
+=head2 get_not_virus ( )
 
 Return all result objects for which ->is_virus is false
 
