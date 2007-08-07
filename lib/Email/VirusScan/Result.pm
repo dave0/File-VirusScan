@@ -132,20 +132,13 @@ Returns true if is_virus flag was set by constructor.
 
 Return data value.
 
-=head1 INCOMPATIBILITIES
-
-There are no known incompatibilities with this module.
-
-=head1 BUGS AND LIMITATIONS
-
-There are no known bugs in this module.
-Please report problems to the author.
-Patches are welcome.
-
 =head1 AUTHOR
 
 Dave O'Neill (dmo@roaringpenguin.com)
 
 =head1 LICENCE AND COPYRIGHT
 
-Copyright (c) 2007 Roaring Penguin Software, Inc.  All rights reserved.
+Copyright (c) 2007 Roaring Penguin Software, Inc.
+
+This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.

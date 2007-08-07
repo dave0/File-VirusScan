@@ -141,22 +141,22 @@ sub scan_path
 __END__
 
 =head1 NAME
- 
+
 Email::VirusScan::Engine::ClamAV::Daemon - Email::VirusScan backend for scanning with clamd
- 
+
 =head1 SYNOPSIS
- 
+
     use Email::VirusScanner;
     my $s = Email::VirusScanner->new({
 	engines => {
-		'ClamAV::Daemon' => { 
+		'ClamAV::Daemon' => {
 			socket_name => '/path/to/clamd.ctl',
 		},
 		...
 	},
 	...
 }
-  
+
 =head1 DESCRIPTION
 
 TODO
@@ -173,16 +173,16 @@ TODO
 
 TODO
 
-=head2 scan_path ( $pathname ) 
+=head2 scan_path ( $pathname )
 
 TODO
- 
+
 =head1 DIAGNOSTICS
- 
+
 TODO A list of every error and warning message that the module can generate
 (even the ones that will "never happen"), with a full explanation of
 each problem, one or more likely causes, and any suggested remedies.
- 
+
 =head1 CONFIGURATION AND ENVIRONMENT
 
 Configuration is passed in as a hashreference to the constructor,
@@ -209,26 +209,19 @@ be used if clamd returns 'Zip module failure'.  Typically, this will be
 the ClamAV::ClamScan backend.
 
 =back
- 
+
 =head1 DEPENDENCIES
 
 L<IO::Socket::UNIX>, L<IO::Select>, L<Scalar::Util>, L<Cwd>,
 L<Email::VirusScan::Result>,
 
-=head1 INCOMPATIBILITIES
-
-There are no known incompatibilities with this module.
- 
-=head1 BUGS AND LIMITATIONS
- 
-There are no known bugs in this module. 
-Please report problems to the author.
-Patches are welcome.
- 
 =head1 AUTHOR
- 
+
 Dave O'Neill (dmo@roaringpenguin.com)
- 
+
 =head1 LICENCE AND COPYRIGHT
- 
-Copyright (c) 2007 Roaring Penguin Software, Inc.  All rights reserved.
+
+Copyright (c) 2007 Roaring Penguin Software, Inc.
+
+This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.

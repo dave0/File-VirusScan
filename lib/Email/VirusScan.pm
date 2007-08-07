@@ -195,44 +195,6 @@ Returns an Email::VirusScan::result object, which can be queried for status.
 
 L<Email::Abstract>, L<Email::VirusScan::Engine>, L<Email::VirusScan::Result>
 
-=head1 INCOMPATIBILITIES
-
-There are no known incompatibilities with this module.
-
-=head1 BUGS AND LIMITATIONS
-
-There are no known bugs in this module.
-Please report problems to the author.
-Patches are welcome.
-
-=head1 SUPPORT
-
-You can find documentation for this module with the perldoc command.
-
-    perldoc Email::VirusScan
-
-You can also look for information at:
-
-=over 4
-
-=item * AnnoCPAN: Annotated CPAN documentation
-
-L<http://annocpan.org/dist/Email-VirusScan>
-
-=item * CPAN Ratings
-
-L<http://cpanratings.perl.org/d/Email-VirusScan>
-
-=item * RT: CPAN's request tracker
-
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Email-VirusScan>
-
-=item * Search CPAN
-
-L<http://search.cpan.org/dist/Email-VirusScan>
-
-=back
-
 =head1 AUTHOR
 
 Dave O'Neill (dmo@roaringpenguin.com)
