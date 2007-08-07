@@ -10,7 +10,7 @@ our $VERSION = '0.002';
 
 # We don't use Module::Pluggable.  Most users of this module will have
 # one or two virus scanners, with the other half-dozen or so plugins
-# going unused.
+# going unused, so there's no sense in finding/loading all plugins.
 sub new
 {
 	my ($class, $conf) = @_;
@@ -22,15 +22,19 @@ sub new
 	my %backends;
 
 	# Load and initialise our backend engines
-	while( my ($backend, $backend_conf) = each %{ $conf->{engines} } ) {
-		$backend =~ s/[^A-Za-z0-9_]//;
-		my $backclass = "Email::VirusScan::Engine::$backend";
+	while( my ($moniker, $backend_conf) = each %{ $conf->{engines} } ) {
+
+		$moniker =~ s/[^-A-Za-z0-9_]//;
+		my $backclass = $moniker;
+
+		substr($backclass, 0, 1, 'Email::VirusScan::Engine::') if substr($backclass, 0, 1) eq '-';
+
 		eval qq{use $backclass;};  ## no critic(StringyEval)
 		if( $@ ) {                 ## no critic(PunctuationVars)
-			croak "Unable to find class $backclass for backend '$backend'";
+			croak "Unable to find class $backclass for backend '$moniker'";
 		}
 
-		$backends{$backend} = $backclass->new( $backend_conf );
+		$backends{$moniker} = $backclass->new( $backend_conf );
 	}
 
 	my $self = {
@@ -53,9 +57,15 @@ sub scan
 	my $result = Email::VirusScan::ResultSet->new();
 
 	for my $back ( @{$self->{_backends}} ) {
-		$result->add(
-			$back->scan( $ea )
-		);
+
+		my $scan_result = eval { $back->scan( $ea ) };
+
+		if( $@ ) {
+			$result->add( Email::VirusScan::Result->error("Error calling ->scan(): $@") );
+		} else {
+			$result->add( $scan_result );
+		}
+
 		if( ! $self->{always_scan}
 		    && $result->has_virus() ) {
 			last;
@@ -72,9 +82,15 @@ sub scan_path
 	my $result = Email::VirusScan::ResultSet->new();
 
 	for my $back ( @{$self->{_backends}} ) {
-		$result->add(
-			$back->scan_path( $path )
-		);
+
+		my $scan_result = eval { $back->scan_path( $path ) };
+
+		if( $@ ) {
+			$result->add( Email::VirusScan::Result->error("Error calling ->scan(): $@") );
+		} else {
+			$result->add( $scan_result );
+		}
+
 		if( ! $self->{always_scan}
 		    && $result->has_virus() ) {
 			last;
@@ -144,8 +160,20 @@ Required configuration options are:
 Reference to hash of backend virus scan engines to be used, and their
 specific configurations.
 
-Keys should be the class name of a L<Email::VirusScan::Engine> subclass,
-with the L<Email::VirusScan::Engine> prefix removed.
+Keys must refer to a class that implements the
+L<Email::VirusScan::Engine> interface, and may be specified as either:
+
+=over 4
+
+=item 1.
+
+A fully-qualified class name.
+
+=item 2.
+
+A name beginning with '-', in which case the '-' is removed and replaced with the L<Email::VirusScan::Engine>:: prefix.
+
+=back
 
 Values should be another hash reference containing engine-specific
 configuration.  This will vary by backend, but generally requires at
@@ -202,7 +230,7 @@ David Skoll  (dfs@roaringpenguin.com>
 
 =head1 LICENCE AND COPYRIGHT
 
-Copyright 2007 Roaring Penguin Software
+Copyright (c) 2007 Roaring Penguin Software, Inc.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

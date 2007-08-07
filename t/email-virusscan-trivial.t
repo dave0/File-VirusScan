@@ -13,7 +13,7 @@ dies_ok { Email::VirusScan->new() } 'Constructor dies with no arguments';
 like( $@, qr/Must supply an 'engines' value to constructor/, '... error as expected');
 
 dies_ok { Email::VirusScan->new({ engines => { wookie => {} }}) } 'Constructor dies with nonexistent engine';
-like( $@, qr/Unable to find class Email::VirusScan::Engine::wookie for backend 'wookie'/, '... error as expected');
+like( $@, qr/Unable to find class wookie for backend 'wookie'/, '... error as expected');
 
 {
 	package Email::VirusScan::Engine::Bogus;
@@ -24,7 +24,7 @@ like( $@, qr/Unable to find class Email::VirusScan::Engine::wookie for backend '
 }
 
 my $s;
-lives_ok { $s = Email::VirusScan->new({ engines => { Bogus => {} } }); } 'Constructor lives with trivial non-working engine';
+lives_ok { $s = Email::VirusScan->new({ engines => { -Bogus => {} } }); } 'Constructor lives with trivial non-working engine';
 my $result = $s->scan_path('/');
 isa_ok( $result, 'Email::VirusScan::ResultSet');
 ok( $result->has_error(), 'Result is an error' );
