@@ -4,7 +4,8 @@ use warnings;
 use Carp;
 
 use Email::VirusScan::Engine;
-use base qw( Email::VirusScan::Engine );
+use vars qw( @ISA );
+@ISA = qw( Email::VirusScan::Engine );
 
 use IO::Socket::UNIX;
 use IO::Select;
@@ -28,10 +29,10 @@ sub new
 	}
 
 	my $self = {
-		socket_name         => $conf->{socket_name},
-		read_timeout      => $conf->{read_timeout}      || 60,
-		write_timeout     => $conf->{write_timeout}     || 30,
-		zip_fallback => $conf->{zip_fallback} || undef,
+		socket_name   => $conf->{socket_name},
+		read_timeout  => $conf->{read_timeout}  || 60,
+		write_timeout => $conf->{write_timeout} || 30,
+		zip_fallback  => $conf->{zip_fallback}  || undef,
 	};
 
 	return bless $self, $class;

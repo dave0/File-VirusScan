@@ -61,7 +61,7 @@ Email::VirusScan::Engine - Engine class for Email::VirusScan backends
 =head1 SYNOPSIS
 
     use Email::VirusScan::Engine;
-    use base qw( Email::VirusScan::Engine );
+    @ISA = qw( Email::VirusScan::Engine );
 
 =head1 DESCRIPTION
 
