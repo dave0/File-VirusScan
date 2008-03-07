@@ -1,20 +1,16 @@
 use strict;
 use warnings;
-use ExtUtils::MakeMaker;
+use inc::Module::Install;
 
-WriteMakefile(
-    NAME                => 'Email::VirusScan',
-    AUTHOR              => q{Dave O'Neill <dmo@roaringpenguin.com>},
-    VERSION_FROM        => 'lib/Email/VirusScan.pm',
-    ABSTRACT_FROM       => 'lib/Email/VirusScan.pm',
-    PL_FILES            => {},
-    PREREQ_PM => {
-        'Test::More' => 0,
-	'File::Temp'=> 0,
-	'Scalar::Util' => 0,
-	'Email::Abstract' => 0,
-	'Data::ResultSet' => 0,
-    },
-    dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
-    clean               => { FILES => 'Email-VirusScan-*' },
-);
+name	 'Email-VirusScan';
+all_from 'lib/Email/VirusScan.pm';
+
+build_requires 'Test::More'      => 0;
+
+requires 'File::Temp'      => 0;
+requires 'Scalar::Util'    => 0;
+requires 'Email::Abstract' => 0;
+requires 'Data::ResultSet' => 0;
+
+auto_install;
+WriteAll;
