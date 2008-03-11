@@ -12,6 +12,7 @@ inc/Module/Install/Win32.pm
 inc/Module/Install/WriteAll.pm
 lib/Email/VirusScan.pm
 lib/Email/VirusScan/Engine.pm
+lib/Email/VirusScan/Engine/BitDefender/BDC.pm
 lib/Email/VirusScan/Engine/ClamAV/Clamscan.pm
 lib/Email/VirusScan/Engine/ClamAV/Daemon.pm
 lib/Email/VirusScan/Engine/NAI/Uvscan.pm
@@ -22,6 +23,7 @@ MANIFEST
 README
 t/00-load.t
 t/03-perlcritic.t
+t/bitdefender-bdc.t
 t/clamav-clamscan.t
 t/clamav-daemon.t
 t/email-virusscan-trivial.t
