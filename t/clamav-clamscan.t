@@ -21,7 +21,7 @@ sub testable_live
 	my ($self) = @_;
 
 	# Only testable live if the command exists and can be run.
-	return system( $self->engine->{command} . " -V >/dev/null 2>&1");
+	return (system( $self->engine->{command} . " -V >/dev/null 2>&1") == 0);
 }
 
 sub constructor_failures : Test(2)

@@ -7,3 +7,4 @@ MANIFEST.SKIP
 MANIFEST.bak
 Makefile$
 Makefile.old
+META.yml
