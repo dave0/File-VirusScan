@@ -6,6 +6,7 @@ use Carp;
 use Email::Abstract;
 use Scalar::Util 'blessed';
 use Cwd qw( abs_path cwd );
+use IO::File;
 use File::Temp 'tempfile';
 
 sub scan
@@ -49,6 +50,26 @@ sub scan
 	}
 
 	return $result;
+}
+
+sub _run_commandline_scanner
+{
+	my ($self, $command, $match) = @_;
+
+	$match = '.*' unless defined $match;
+
+	my $fh = IO::File->new("$command |");
+	unless( $fh ) {
+		die "Could not execute '$command': $!";
+	}
+
+	my $msg;
+	while(<$fh>) {
+		$msg .= $_ if /$match/oi;
+	}
+	$fh->close;
+
+	return ($? >> 8, $msg);
 }
 
 1;

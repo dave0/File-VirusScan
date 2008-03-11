@@ -84,6 +84,7 @@ sub _get_socket
 	return $sock;
 }
 
+# TODO: Use read/write timeouts here!
 sub scan_path
 {
 	my ($self, $path) = @_;
@@ -150,7 +151,7 @@ Email::VirusScan::Engine::ClamAV::Daemon - Email::VirusScan backend for scanning
     use Email::VirusScanner;
     my $s = Email::VirusScanner->new({
 	engines => {
-		'ClamAV::Daemon' => {
+		'-ClamAV::Daemon' => {
 			socket_name => '/path/to/clamd.ctl',
 		},
 		...
@@ -160,56 +161,56 @@ Email::VirusScan::Engine::ClamAV::Daemon - Email::VirusScan backend for scanning
 
 =head1 DESCRIPTION
 
-TODO
+Email::VirusScan backend for scanning using ClamAV's clamd daemon.
+
+Email::VirusScan::Engine::ClamAV::Daemon inherits from, and follows the
+conventions of, Email::VirusScan::Engine.  See the documentation of
+that module for more information.
 
 =head1 CLASS METHODS
 
 =head2 new ( $conf )
 
-TODO
-
-=head1 INSTANCE METHODS
-
-=head2 scan ( $email_abstract_obj )
-
-TODO
-
-=head2 scan_path ( $pathname )
-
-TODO
-
-=head1 DIAGNOSTICS
-
-TODO A list of every error and warning message that the module can generate
-(even the ones that will "never happen"), with a full explanation of
-each problem, one or more likely causes, and any suggested remedies.
-
-=head1 CONFIGURATION AND ENVIRONMENT
-
-Configuration is passed in as a hashreference to the constructor,
-either directly, or via Email::VirusScanner.
-
-Required configuration settings are:
+Creates a new scanner object.  B<$conf> is a hashref containing:
 
 =over 4
 
 =item socket_name
 
-The full path to the clamd socket file
+Required.
 
-=back
+This must be a fully-qualified path to the clamd socket.  Currently,
+only local clamd connections over a UNIX socket are supported.
 
-Optional configuration settings are:
+=item read_timeout
 
-=over 4
+Optional.  Defaults to 60 seconds.
+
+Timeout in seconds for waiting on clamd socket reads.
+
+=item write_timeout
+
+Optional. Defaults to 30 seconds.
+
+Timeout in seconds for waiting for clamd socket to be writeable.
 
 =item zip_fallback
 
-A reference to an instance of another Email::VirusScanner backend, to
-be used if clamd returns 'Zip module failure'.  Typically, this will be
-the ClamAV::ClamScan backend.
+Optional.  Default is undef.
+
+This config option can be a reference to an instance of
+Email::VirusScan::Engine object that will be used as a fallback in the
+event that clamd returns a 'zip module failure' error.
 
 =back
+
+=head1 INSTANCE METHODS
+
+=head2 scan_path ( $pathname )
+
+Scan the path provided using clamd on a the configured local UNIX socket.
+
+Returns an Email::VirusScan::Result object.
 
 =head1 DEPENDENCIES
 
