@@ -16,6 +16,7 @@ lib/Email/VirusScan/Engine/BitDefender/BDC.pm
 lib/Email/VirusScan/Engine/ClamAV/Clamscan.pm
 lib/Email/VirusScan/Engine/ClamAV/Daemon.pm
 lib/Email/VirusScan/Engine/CommandAntivirus.pm
+lib/Email/VirusScan/Engine/FSecure/FSAV.pm
 lib/Email/VirusScan/Engine/NAI/Uvscan.pm
 lib/Email/VirusScan/Result.pm
 lib/Email/VirusScan/ResultSet.pm
@@ -29,6 +30,7 @@ t/clamav-clamscan.t
 t/clamav-daemon.t
 t/command-antivirus.t
 t/email-virusscan-trivial.t
+t/fsecure-fsav.t
 t/lib/TestVirusPlugin.pm
 t/nai-uvscan.t
 t/perlcriticrc
