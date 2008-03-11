@@ -14,6 +14,7 @@ lib/Email/VirusScan.pm
 lib/Email/VirusScan/Engine.pm
 lib/Email/VirusScan/Engine/ClamAV/Clamscan.pm
 lib/Email/VirusScan/Engine/ClamAV/Daemon.pm
+lib/Email/VirusScan/Engine/NAI/Uvscan.pm
 lib/Email/VirusScan/Result.pm
 lib/Email/VirusScan/ResultSet.pm
 Makefile.PL
@@ -25,6 +26,7 @@ t/clamav-clamscan.t
 t/clamav-daemon.t
 t/email-virusscan-trivial.t
 t/lib/TestVirusPlugin.pm
+t/nai-uvscan.t
 t/perlcriticrc
 t/pod-coverage.t
 t/pod.t
