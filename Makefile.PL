@@ -6,6 +6,9 @@ name	 'Email-VirusScan';
 all_from 'lib/Email/VirusScan.pm';
 
 build_requires 'Test::More'      => 0;
+build_requires 'Test::Class'     => 0;
+build_requires 'Test::Exception' => 0;
+
 
 requires 'File::Temp'      => 0;
 requires 'Scalar::Util'    => 0;

@@ -19,6 +19,7 @@ sub scan
 
 	my $path = undef;
 	my $tmpfile_used = 0;
+	# TODO FIXME: need to add get_body_path() to Email::Abstract
 	if( $email->can('get_body_path') ) {
 		# Good, it's a new enough Email::Abstract
 		$path = $email->get_body_path();

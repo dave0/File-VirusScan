@@ -1,57 +1,60 @@
-use Test::More tests => 17;
+package TestVirusScan::Clamscan;
+use strict;
+use warnings;
+
+use lib qw( t/lib );
+use base qw( TestVirusPlugin );
+
+use Test::More;
 use Test::Exception;
-use Cwd 'getcwd';
 use File::Temp ();
 
-BEGIN {
-	use_ok('Email::VirusScan::Engine::ClamAV::Daemon');
+use Email::VirusScan::Engine::ClamAV::Daemon;
+
+sub under_test { 'Email::VirusScan::Engine::ClamAV::Daemon' };
+sub required_arguments {
+	{ socket_name => '/var/run/clamav/clamd.ctl' }
 }
 
-# Existence of methods
-can_ok('Email::VirusScan::Engine::ClamAV::Daemon', qw( new scan scan_path ) );
+sub testable_live
+{
+	my ($self) = @_;
 
-# Constructor failures
-dies_ok { Email::VirusScan::Engine::ClamAV::Daemon->new() } 'Constructor dies with no arguments';
-like( $@, qr/Must supply a 'socket_name' config value/, ' ... error as expected');
+	# Only testable live if the socket exists
+	return ( -S $self->engine->{socket_name} && -r _ && -w _ );
+}
 
-# Constructor success
-my $s;
-lives_ok { $s = Email::VirusScan::Engine::ClamAV::Daemon->new({ socket_name => '/dev/null'}); } 'new() lives';
-isa_ok( $s, 'Email::VirusScan::Engine::ClamAV::Daemon');
-isa_ok( $s, 'Email::VirusScan::Engine');
+sub constructor_failures : Test(2)
+{
+	my ($self) = @_;
 
-# Bad socket
-dies_ok { $s->_get_socket() } '_get_socket() dies (invalid socket_name given)';
-like( $@, qr{Could not connect to clamd daemon at /dev/null}, '... error as expected');
+	dies_ok { $self->under_test->new() } 'Constructor dies with no arguments';
+	like( $@, qr/Must supply a 'socket_name' config value/, ' ... error as expected');
+}
 
-# TODO: needs prompt from build process to avoid tests if no daemon available
-my $sockfile = '/var/run/clamav/clamd.ctl';
+sub bogus_socket : Test(2)
+{
+	my ($self) = @_;
 
-SKIP: {
-	skip 'No clamd socket available', 8 unless -S $sockfile;
+	my $s = $self->engine();
 
-	# Test with good socket
-	$s = Email::VirusScan::Engine::ClamAV::Daemon->new({
-		socket_name => $sockfile,
-	});
+	$s->{socket_name} = '/dev/null';
+
+	dies_ok { $s->_get_socket() } '_get_socket() dies (invalid socket_name given)';
+	like( $@, qr{Could not connect to clamd daemon at /dev/null}, '... error as expected');
+}
+
+sub good_socket : Test(1)
+{
+	my ($self) = @_;
+	my $s = $self->engine();
+
+	return "Could not run live test" if ! $self->testable_live;
+
 	my $sock;
 	lives_ok { $sock = $s->_get_socket() } 'Real socket can be spoken to';
 	$sock->close;
-
-	# Try with unqualified path
-	my $result;
-	lives_ok { $result = $s->scan_path('t/') } 'scan_path() lives';
-	isa_ok( $result, 'Email::VirusScan::Result');
-	ok( $result->is_error(), 'Result is an error' );
-	is( $result->get_data(), 'Path t/ is not absolute', '... with expected text');
-
-	# Try with fully-qualified path
-	my $testdir = File::Temp::tempdir( TMPDIR => 1, CLEANUP => 1);
-	chmod 0755, $testdir;
-	lives_ok { $result = $s->scan_path( $testdir) } "scan_path($testdir) lives";
-	isa_ok( $result, 'Email::VirusScan::Result');
-	ok( $result->is_clean(), 'Result is clean' );
-	if( ! $result->is_clean() ) {
-		diag( $result->get_data() );
-	}
 }
+
+__PACKAGE__->runtests() unless caller();
+1;
