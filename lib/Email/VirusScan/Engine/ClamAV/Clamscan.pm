@@ -114,39 +114,6 @@ Fully-qualified path to the 'clamscan' binary.
 Scan the path provided using the clamscan binary provided to the
 constructor.  Returns an Email::VirusScan::Result object.
 
-=head1 DIAGNOSTICS
-
-TODO A list of every error and warning message that the module can generate
-(even the ones that will "never happen"), with a full explanation of
-each problem, one or more likely causes, and any suggested remedies.
-
-=head1 CONFIGURATION AND ENVIRONMENT
-
-Configuration is passed in as a hashreference to the constructor,
-either directly, or via Email::VirusScanner.
-
-Required configuration settings are:
-
-=over 4
-
-=item socket_name
-
-The full path to the clamd socket file
-
-=back
-
-Optional configuration settings are:
-
-=over 4
-
-=item zip_fallback
-
-A reference to an instance of another Email::VirusScanner backend, to
-be used if clamd returns 'Zip module failure'.  Typically, this will be
-the ClamAV::ClamScan backend.
-
-=back
-
 =head1 DEPENDENCIES
 
 L<IO::Socket::UNIX>, L<IO::Select>, L<Scalar::Util>, L<Cwd>,
