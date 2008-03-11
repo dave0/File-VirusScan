@@ -76,7 +76,7 @@ Email::VirusScan::Engine::BitDefender::BDC - Email::VirusScan backend for scanni
     my $s = Email::VirusScanner->new({
 	engines => {
 		'-BitDefender::BDC' => {
-			command => '/path/to/clamscan',
+			command => '/path/to/bdc',
 		},
 		...
 	},
@@ -101,7 +101,7 @@ Creates a new scanner object.  B<$conf> is a hashref containing:
 
 =item command
 
-Fully-qualified path to the 'clamscan' binary.
+Fully-qualified path to the 'bdc' binary.
 
 =back
 
@@ -109,8 +109,8 @@ Fully-qualified path to the 'clamscan' binary.
 
 =head2 scan_path ( $pathname )
 
-Scan the path provided using the clamscan binary provided to the
-constructor.  Returns an Email::VirusScan::Result object.
+Scan the path provided using the command provided to the constructor.
+Returns an Email::VirusScan::Result object.
 
 =head1 DEPENDENCIES
 

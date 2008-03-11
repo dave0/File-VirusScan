@@ -77,7 +77,7 @@ Email::VirusScan::Engine::ClamAV::Clamscan - Email::VirusScan backend for scanni
     use Email::VirusScanner;
     my $s = Email::VirusScanner->new({
 	engines => {
-		'ClamAV::Clamscan' => {
+		'-ClamAV::Clamscan' => {
 			command => '/path/to/clamscan',
 		},
 		...

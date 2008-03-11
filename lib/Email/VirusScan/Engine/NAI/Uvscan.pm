@@ -166,8 +166,8 @@ Fully-qualified path to the 'uvscan' binary.
 
 =head2 scan_path ( $pathname )
 
-Scan the path provided using the clamscan binary provided to the
-constructor.  Returns an Email::VirusScan::Result object.
+Scan the path provided using the command provided to the constructor.
+Returns an Email::VirusScan::Result object.
 
 =head1 DEPENDENCIES
 
