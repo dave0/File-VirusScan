@@ -1,4 +1,4 @@
-package TestVirusScan::ClamAV::Clamscan;
+package TestVirusScan::CentralCommand::Vexira;
 use strict;
 use warnings;
 
@@ -9,11 +9,11 @@ use Test::More;
 use Test::Exception;
 use File::Temp ();
 
-use Email::VirusScan::Engine::ClamAV::Clamscan;
+use Email::VirusScan::Engine::CentralCommand::Vexira;
 
-sub under_test { 'Email::VirusScan::Engine::ClamAV::Clamscan' };
+sub under_test { 'Email::VirusScan::Engine::CentralCommand::Vexira' };
 sub required_arguments {
-	{ command => 'clamscan' }
+	{ command => 'vexira' }
 }
 
 sub testable_live
@@ -21,7 +21,7 @@ sub testable_live
 	my ($self) = @_;
 
 	# Only testable live if the command exists and can be run.
-	return (system( $self->engine->{command} . " -V >/dev/null 2>&1") == 0);
+	return (system( $self->engine->{command} . " >/dev/null 2>&1") == 0);
 }
 
 sub constructor_failures : Test(2)

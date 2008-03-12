@@ -1,4 +1,4 @@
-package Email::VirusScan::Engine::ClamAV::Clamscan;
+package Email::VirusScan::Engine::CentralCommand::Vexira;
 use strict;
 use warnings;
 use Carp;
@@ -21,7 +21,7 @@ sub new
 
 	my $self = {
 		command     => $conf->{command},
-		args	    => [ '--stdout', '--no-summary', '--infected' ],
+		args	    => [ '-qqq', '--log=/dev/null', '--all-files', '-as' ],
 	};
 
 	return bless $self, $class;
@@ -37,7 +37,8 @@ sub scan_path
 
 	my ($exitcode, $scan_response) = eval {
 		$self->_run_commandline_scanner(
-			join(' ', $self->{command}, @{$self->{args}}, $path, '2>&1')
+			join(' ', $self->{command}, @{$self->{args}}, $path, '2>&1'),
+			qr/: (?:virus|iworm|macro|mutant|sequence|trojan) /,
 		);
 	};
 
@@ -45,22 +46,26 @@ sub scan_path
 		return Email::VirusScan::Result->error( $@ );
 	}
 
-	if( 0 == $exitcode ) {
+	if( 0 == $exitcode ||
+	    9 == $exitcode ) {
+		# 0 == OK
+		# 9 == Unknown file type (treated as "ok" for now)
 		return Email::VirusScan::Result->clean();
 	}
 
-	if( 1 == $exitcode ) {
-		# TODO: what if more than one virus found?
-		# TODO: can/should we capture infected filenames?
-		if( $scan_response =~ m/: (.+) FOUND/ ) {
-			return Email::VirusScan::Result->virus( $1 );
-		} elsif ( $scan_response =~ m/: (.+) ERROR/ ) {
-			my $err_detail = $1;
-			return Email::VirusScan::Result->error( "clamscan error: $err_detail" );
-		}
+	if( 3 == $exitcode ||
+	    5 == $exitcode ) {
+		return Email::VirusScan::Result->virus( 'vexira-password-protected-zip' );
 	}
 
-	return Email::VirusScan::Result->error("Unknown return code from clamscan: $exitcode");
+	if( 1 == $exitcode ||
+	    2 == $exitcode ) {
+		my ($virus_name) = $scan_response =~ m/: (?:virus|iworm|macro|mutant|sequence|trojan) (\S+)/;
+		$virus_name ||= 'unknown-Vexira-virus';
+		return Email::VirusScan::Result->virus( $virus_name );
+	}
+
+	return Email::VirusScan::Result->error("Unknown return code from vexira: $exitcode");
 }
 
 1;
@@ -68,15 +73,15 @@ __END__
 
 =head1 NAME
 
-Email::VirusScan::Engine::ClamAV::Clamscan - Email::VirusScan backend for scanning with clamscan
+Email::VirusScan::Engine::CentralCommand::Vexira - Email::VirusScan backend for scanning with vexira
 
 =head1 SYNOPSIS
 
     use Email::VirusScanner;
     my $s = Email::VirusScanner->new({
 	engines => {
-		'-ClamAV::Clamscan' => {
-			command => '/path/to/clamscan',
+		'-CentralCommand::Vexira' => {
+			command => '/path/to/vexira',
 		},
 		...
 	},
@@ -85,11 +90,11 @@ Email::VirusScan::Engine::ClamAV::Clamscan - Email::VirusScan backend for scanni
 
 =head1 DESCRIPTION
 
-Email::VirusScan backend for scanning using ClamAV's clamscan command-line scanner.
+Email::VirusScan backend for scanning using Central Command's Vexira command-line scanner.
 
-This class inherits from, and follows the conventions of,
-Email::VirusScan::Engine.  See the documentation of that module for
-more information.
+Email::VirusScan::Engine::CentralCommand::Vexira inherits from, and follows the
+conventions of, Email::VirusScan::Engine.  See the documentation of
+that module for more information.
 
 =head1 CLASS METHODS
 
@@ -101,7 +106,7 @@ Creates a new scanner object.  B<$conf> is a hashref containing:
 
 =item command
 
-Fully-qualified path to the 'clamscan' binary.
+Fully-qualified path to the 'vexira' binary.
 
 =back
 
@@ -109,13 +114,17 @@ Fully-qualified path to the 'clamscan' binary.
 
 =head2 scan_path ( $pathname )
 
-Scan the path provided using the clamscan binary provided to the
+Scan the path provided using the vexira binary provided to the
 constructor.  Returns an Email::VirusScan::Result object.
 
 =head1 DEPENDENCIES
 
 L<IO::Socket::UNIX>, L<IO::Select>, L<Scalar::Util>, L<Cwd>,
 L<Email::VirusScan::Result>,
+
+=head1 SEE ALSO
+
+L<http://www.centralcommand.com/ts/dl/pdf/scanner_en_vexira.pdf>
 
 =head1 AUTHOR
 

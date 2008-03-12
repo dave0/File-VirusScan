@@ -13,9 +13,11 @@ inc/Module/Install/WriteAll.pm
 lib/Email/VirusScan.pm
 lib/Email/VirusScan/Engine.pm
 lib/Email/VirusScan/Engine/BitDefender/BDC.pm
+lib/Email/VirusScan/Engine/CentralCommand/Vexira.pm
 lib/Email/VirusScan/Engine/ClamAV/Clamscan.pm
 lib/Email/VirusScan/Engine/ClamAV/Daemon.pm
 lib/Email/VirusScan/Engine/CommandAntivirus.pm
+lib/Email/VirusScan/Engine/FPROT/Daemon.pm
 lib/Email/VirusScan/Engine/FSecure/FSAV.pm
 lib/Email/VirusScan/Engine/NAI/Uvscan.pm
 lib/Email/VirusScan/Engine/Symantec/CSS.pm
@@ -27,11 +29,13 @@ README
 t/00-load.t
 t/03-perlcritic.t
 t/bitdefender-bdc.t
+t/centralcommand-vexira.t
 t/clamav-clamscan.t
 t/clamav-daemon.t
 t/command-antivirus.t
 t/email-virusscan-trivial.t
 t/engine-base-class.t
+t/fprot-daemon.t
 t/fsecure-fsav.t
 t/lib/TestVirusPlugin.pm
 t/nai-uvscan.t

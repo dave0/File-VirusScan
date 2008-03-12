@@ -1,4 +1,4 @@
-package TestVirusScan::Clamscan;
+package TestVirusScan::ClamAV::Daemon;
 use strict;
 use warnings;
 
