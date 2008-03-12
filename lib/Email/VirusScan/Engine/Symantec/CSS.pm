@@ -8,7 +8,6 @@ use vars qw( @ISA );
 @ISA = qw( Email::VirusScan::Engine );
 
 use IO::Socket::INET;
-use IO::Dir;
 use Cwd 'abs_path';
 
 use Email::VirusScan::Result;
@@ -66,7 +65,7 @@ sub scan_path
 		return Email::VirusScan::Result->error( "Path $path is not absolute" );
 	}
 
-	my @files = eval { $self->_list_files( $path ) };
+	my @files = eval { $self->list_files( $path ) };
 	if( $@ ) {
 		return Email::VirusScan::Result->error( $@ );
 	}
@@ -79,37 +78,6 @@ sub scan_path
 			return $result;
 		}
 	}
-}
-
-# CSS can only scan one file at a time, it seems.  So, if we were given
-# a directory, enumerate the files within.
-sub _list_files
-{
-	my ($self, $path) = @_;
-
-	if( ! -d $path ) {
-		return $path;
-	}
-
-	my $dir = IO::Dir->new( $path );
-	if( ! $dir ) {
-		croak "Could not open directory $path: $!";
-	}
-
-	my @files;
-
-	for my $name ( $dir->read ) {
-		next if ($name eq '.' || $name eq '..');
-		my $full_name = "$path/$name";
-		if( -f $full_name ) {
-			push @files, $full_name;
-		} elsif ( -d _ ) {
-			push @files, $self->_list_files($full_name);
-		}
-	}
-
-	$dir->close;
-	return @files;
 }
 
 sub _scan_path_local
@@ -317,7 +285,7 @@ Returns an Email::VirusScan::Result object.
 
 =head1 DEPENDENCIES
 
-L<IO::Socket::INET>, L<IO::Dir>, L<Cwd>,
+L<IO::Socket::INET>, L<Cwd>,
 L<Email::VirusScan::Result>,
 
 =head1 AUTHOR

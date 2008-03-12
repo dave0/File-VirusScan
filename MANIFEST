@@ -31,6 +31,7 @@ t/clamav-clamscan.t
 t/clamav-daemon.t
 t/command-antivirus.t
 t/email-virusscan-trivial.t
+t/engine-base-class.t
 t/fsecure-fsav.t
 t/lib/TestVirusPlugin.pm
 t/nai-uvscan.t

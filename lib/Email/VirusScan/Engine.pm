@@ -7,6 +7,7 @@ use Email::Abstract;
 use Scalar::Util 'blessed';
 use Cwd qw( abs_path cwd );
 use IO::File;
+use IO::Dir;
 use File::Temp 'tempfile';
 
 sub scan
@@ -73,6 +74,36 @@ sub _run_commandline_scanner
 	return ($? >> 8, $msg);
 }
 
+sub list_files
+{
+	my ($self, $path) = @_;
+
+	if( ! -d $path ) {
+		return $path;
+	}
+
+	my $dir = IO::Dir->new( $path );
+	if( ! $dir ) {
+		croak "Could not open directory $path: $!";
+	}
+
+	my @files;
+
+	for my $name ( $dir->read ) {
+		next if ($name eq '.' || $name eq '..');
+		my $full_name = "$path/$name";
+		if( -f $full_name ) {
+			push @files, $full_name;
+		} elsif ( -d _ ) {
+			push @files, $self->list_files($full_name);
+		}
+	}
+
+	$dir->close;
+	return @files;
+}
+
+
 1;
 __END__
 
@@ -97,11 +128,20 @@ Generic scan() method.  Takes an Email::Abstract object, finds its path
 location or saves the contents to a file, and calls scan_path() on that
 path.
 
-=head1 DIAGNOSTICS
+May be overridden by subclass.
 
-TODO A list of every error and warning message that the module can generate
-(even the ones that will "never happen"), with a full explanation of
-each problem, one or more likely causes, and any suggested remedies.
+=head1 UTILITY METHODS FOR SUBCLASSES
+
+=head2 list_files ( $path )
+
+Returns a list of all files below $path, recursing into directories.
+
+Some scanners can only scan individual files, rather than understanding
+directories themselves.  This gives us a lightweight way to find all
+files for scanning.
+
+Will die with "Could not open directory $path: $!" if directory cannot
+be opened.
 
 =head1 CONFIGURATION AND ENVIRONMENT
 
