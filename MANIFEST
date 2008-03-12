@@ -20,6 +20,7 @@ lib/Email/VirusScan/Engine/CommandAntivirus.pm
 lib/Email/VirusScan/Engine/FPROT/Daemon.pm
 lib/Email/VirusScan/Engine/FSecure/FSAV.pm
 lib/Email/VirusScan/Engine/NAI/Uvscan.pm
+lib/Email/VirusScan/Engine/Sophos/Sweep.pm
 lib/Email/VirusScan/Engine/Symantec/CSS.pm
 lib/Email/VirusScan/Result.pm
 lib/Email/VirusScan/ResultSet.pm
@@ -42,4 +43,5 @@ t/nai-uvscan.t
 t/perlcriticrc
 t/pod-coverage.t
 t/pod.t
+t/sophos-sweep.t
 t/symantec-css.t
