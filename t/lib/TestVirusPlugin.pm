@@ -30,7 +30,7 @@ sub _00_constructor : Test(setup => 2)
 
 	my $tclass = $self->under_test();
 
-	$self->{engine} = $tclass->new( 
+	$self->{engine} = $tclass->new(
 		$self->required_arguments()
 	);
 
@@ -60,7 +60,7 @@ sub scan_empty_directory : Test(3)
 {
 	my ($self) = @_;
 
-	return "Could not run live test" if ! $self->testable_live;
+	return 'Could not run live test' if ! $self->testable_live;
 
 	my $s = $self->engine;
 	my $result;
@@ -80,7 +80,7 @@ sub scan_eicar : Test(3)
 {
 	my ($self) = @_;
 
-	return "Could not run live test" if ! $self->testable_live;
+	return 'Could not run live test' if ! $self->testable_live;
 
 	my $s = $self->engine;
 	my $result;
