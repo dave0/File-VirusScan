@@ -17,6 +17,7 @@ lib/Email/VirusScan/Engine/CentralCommand/Vexira.pm
 lib/Email/VirusScan/Engine/ClamAV/Clamscan.pm
 lib/Email/VirusScan/Engine/ClamAV/Daemon.pm
 lib/Email/VirusScan/Engine/CommandAntivirus.pm
+lib/Email/VirusScan/Engine/FPROT/Command.pm
 lib/Email/VirusScan/Engine/FPROT/Daemon.pm
 lib/Email/VirusScan/Engine/FSecure/FSAV.pm
 lib/Email/VirusScan/Engine/Kaspersky/AVP5.pm
@@ -39,6 +40,7 @@ t/clamav-daemon.t
 t/command-antivirus.t
 t/email-virusscan-trivial.t
 t/engine-base-class.t
+t/fprot-command.t
 t/fprot-daemon.t
 t/fsecure-fsav.t
 t/kaspersky-avp5.t
