@@ -47,44 +47,9 @@ sub _get_socket
 		croak "Error: Could not connect to clamd daemon at $self->{socket_name}";
 	}
 
-	my $s = IO::Select->new();
-	$s->add($sock);
-	if ( ! $s->can_write( $self->{write_timeout}) ) {
-		$sock->close;
-		croak "Error: Timeout writing to clamd daemon at $self->{socket_name}";
-	}
-
-	$sock->print('PING');
-	$sock->flush;
-
-	if ( ! $s->can_read( $self->{read_timeout}) ) {
-		$sock->close;
-		croak "Error: Timeout reading from clamd daemon at $self->{socket_name}";
-	}
-
-	# Discard our IO::Select object.
-	undef $s;
-
-	my $ping_result;
-	$sock->sysread( $ping_result, 256);
-	chomp $ping_result;
-
-	$sock->close();
-
-	if( ! defined $ping_result || $ping_result ne 'PONG' ) {
-		croak 'Error: clamd did not respond to PING';
-	}
-
-	# Ok, it's there.  Reconnect and return a socket we can use.
-	# TODO: use SESSION / END support instead of reconnecting?
-	$sock =  IO::Socket::UNIX->new( Peer => $self->{socket_name} );
-	if( ! defined $sock ) {
-		croak "Error: Could not connect to clamd daemon at $self->{socket_name}";
-	}
 	return $sock;
 }
 
-# TODO: Use read/write timeouts here!
 sub scan_path
 {
 	my ($self, $path) = @_;
@@ -98,6 +63,13 @@ sub scan_path
 		return Email::VirusScan::Result->error( $@ );
 	}
 
+	my $s = IO::Select->new( $sock );
+
+	if ( ! $s->can_write( $self->{write_timeout}) ) {
+		$sock->close;
+		return Email::VirusScan::result->error("Timeout writing to clamd daemon at $self->{socket_name}");
+	}
+
 	if( ! $sock->print("SCAN $path\n") ) {
 		$sock->close;
 		return Email::VirusScan::Result->error( "Could not get clamd to scan $path" );
@@ -108,7 +80,16 @@ sub scan_path
 		return Email::VirusScan::Result->error( "Could not get clamd to scan $path" );
 	}
 
+	if ( ! $s->can_read( $self->{read_timeout}) ) {
+		$sock->close;
+		return Email::VirusScan::Result->error("Timeout reading from clamd daemon at $self->{socket_name}");
+	}
+
+	# Discard our IO::Select object.
+	undef $s;
+
 	my $scan_response;
+
 	my $rc = $sock->sysread( $scan_response, 256 );
 	$sock->close();
 
