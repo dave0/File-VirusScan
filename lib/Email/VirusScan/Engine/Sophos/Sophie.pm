@@ -8,8 +8,6 @@ use vars qw( @ISA );
 @ISA = qw( Email::VirusScan::Engine );
 
 use IO::Socket::UNIX;
-use IO::Select;
-use Scalar::Util 'blessed';
 use Cwd 'abs_path';
 
 use Email::VirusScan::Result;
@@ -146,16 +144,18 @@ Returns an Email::VirusScan::Result object.
 
 =head1 DEPENDENCIES
 
-L<IO::Socket::UNIX>, L<Cwd>,
-L<Email::VirusScan::Result>,
+L<IO::Socket::UNIX>, L<Cwd>, L<Email::VirusScan::Result>,
 
 =head1 SEE ALSO
 
 L<http://www.clanfield.info/sophie/>
+L<http://www.sophos.com>
 
 =head1 AUTHOR
 
+David Skoll (dfs@roaringpenguin.com)
 Dave O'Neill (dmo@roaringpenguin.com)
+Jason Englander
 
 =head1 LICENCE AND COPYRIGHT
 

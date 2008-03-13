@@ -119,8 +119,7 @@ constructor.  Returns an Email::VirusScan::Result object.
 
 =head1 DEPENDENCIES
 
-L<IO::Socket::UNIX>, L<IO::Select>, L<Scalar::Util>, L<Cwd>,
-L<Email::VirusScan::Result>,
+L<Cwd>, L<Email::VirusScan::Result>,
 
 =head1 SEE ALSO
 
@@ -128,7 +127,9 @@ L<http://www.centralcommand.com/ts/dl/pdf/scanner_en_vexira.pdf>
 
 =head1 AUTHOR
 
+David Skoll (dfs@roaringpenguin.com)
 Dave O'Neill (dmo@roaringpenguin.com)
+John Rowan Littell
 
 =head1 LICENCE AND COPYRIGHT
 

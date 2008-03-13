@@ -217,8 +217,13 @@ Returns an Email::VirusScan::Result object.
 L<IO::Socket::UNIX>, L<IO::Select>, L<Scalar::Util>, L<Cwd>,
 L<Email::VirusScan::Result>,
 
+=head1 SEE ALSO
+
+L<http://www.clamav.net/>
+
 =head1 AUTHOR
 
+David Skoll (dfs@roaringpenguin.com)
 Dave O'Neill (dmo@roaringpenguin.com)
 
 =head1 LICENCE AND COPYRIGHT

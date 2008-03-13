@@ -7,8 +7,7 @@ use Email::VirusScan::Engine;
 use vars qw( @ISA );
 @ISA = qw( Email::VirusScan::Engine );
 
-use IO::Socket::UNIX;
-use IO::Select;
+use IO::Socket::INET;
 use Cwd 'abs_path';
 
 use Email::VirusScan::Result;
@@ -287,18 +286,23 @@ port, and four more above it.
 
 =head2 scan_path ( $pathname )
 
-Scan the path provided using clamd on a the configured local UNIX socket.
+Scan the path provided using clamd on a the configured host.
 
 Returns an Email::VirusScan::Result object.
 
 =head1 DEPENDENCIES
 
-L<IO::Socket::UNIX>, L<IO::Select>, L<Scalar::Util>, L<Cwd>,
-L<Email::VirusScan::Result>,
+L<IO::Socket::INET>, L<Cwd>, L<Email::VirusScan::Result>
+
+=head1 SEE ALSO
+
+L<http://www.f-prot.com/>
 
 =head1 AUTHOR
 
+David Skoll (dfs@roaringpenguin.com)
 Dave O'Neill (dmo@roaringpenguin.com)
+Steffen Kaiser
 
 =head1 LICENCE AND COPYRIGHT
 

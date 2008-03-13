@@ -125,11 +125,15 @@ constructor.  Returns an Email::VirusScan::Result object.
 
 L<Cwd>, L<Email::VirusScan::Result>,
 
+=head1 SEE ALSO
+
+L<http://www.sophos.com>
+
 =head1 AUTHOR
 
-Dave O'Neill (dmo@roaringpenguin.com)
-
-Exit code parsing based on info from Nicholas Brealey
+David Skoll (dfs@roaringpenguin.com),
+Dave O'Neill (dmo@roaringpenguin.com),
+Adam Lanier, Nicholas Brealey
 
 =head1 LICENCE AND COPYRIGHT
 

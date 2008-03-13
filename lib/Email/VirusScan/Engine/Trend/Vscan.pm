@@ -116,8 +116,13 @@ Returns an Email::VirusScan::Result object.
 
 L<Cwd>, L<Email::VirusScan::Result>,
 
+=head1 SEE ALSO
+
+L<http://www.trendmicro.com/>
+
 =head1 AUTHOR
 
+David Skoll (dfs@roaringpenguin.com)
 Dave O'Neill (dmo@roaringpenguin.com)
 
 =head1 LICENCE AND COPYRIGHT

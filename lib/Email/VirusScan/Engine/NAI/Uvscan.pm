@@ -7,8 +7,6 @@ use Email::VirusScan::Engine;
 use vars qw( @ISA );
 @ISA = qw( Email::VirusScan::Engine );
 
-use IO::Socket::UNIX;
-use IO::Select;
 use Cwd 'abs_path';
 
 use Email::VirusScan::Result;
@@ -171,11 +169,15 @@ Returns an Email::VirusScan::Result object.
 
 =head1 DEPENDENCIES
 
-L<IO::Socket::UNIX>, L<IO::Select>, L<Scalar::Util>, L<Cwd>,
-L<Email::VirusScan::Result>,
+L<Cwd>, L<Email::VirusScan::Result>,
+
+=head1 SEE ALSO
+
+L<http://www.nai.com/>
 
 =head1 AUTHOR
 
+David Skoll (dfs@roaringpenguin.com)
 Dave O'Neill (dmo@roaringpenguin.com)
 
 uvscan exit code information provided by Anthony Giggins
