@@ -23,6 +23,7 @@ lib/Email/VirusScan/Engine/FSecure/FSAV.pm
 lib/Email/VirusScan/Engine/Kaspersky/AVP5.pm
 lib/Email/VirusScan/Engine/Kaspersky/Kavscanner.pm
 lib/Email/VirusScan/Engine/NAI/Uvscan.pm
+lib/Email/VirusScan/Engine/Norman/NVCC.pm
 lib/Email/VirusScan/Engine/Sophos/Savscan.pm
 lib/Email/VirusScan/Engine/Sophos/Sweep.pm
 lib/Email/VirusScan/Engine/Symantec/CSS.pm
@@ -48,6 +49,7 @@ t/kaspersky-avp5.t
 t/kaspersky-kavscanner.t
 t/lib/TestVirusPlugin.pm
 t/nai-uvscan.t
+t/norman-nvcc.t
 t/perlcriticrc
 t/pod-coverage.t
 t/pod.t
