@@ -6,7 +6,7 @@ use Carp;
 use Email::VirusScan::Result;
 use Email::VirusScan::ResultSet;
 
-our $VERSION = '0.002';
+our $VERSION = '0.010';
 
 # We don't use Module::Pluggable.  Most users of this module will have
 # one or two virus scanners, with the other half-dozen or so plugins
