@@ -20,6 +20,7 @@ lib/Email/VirusScan/Engine/CommandAntivirus.pm
 lib/Email/VirusScan/Engine/FPROT/Daemon.pm
 lib/Email/VirusScan/Engine/FSecure/FSAV.pm
 lib/Email/VirusScan/Engine/Kaspersky/AVP5.pm
+lib/Email/VirusScan/Engine/Kaspersky/Kavscanner.pm
 lib/Email/VirusScan/Engine/NAI/Uvscan.pm
 lib/Email/VirusScan/Engine/Sophos/Savscan.pm
 lib/Email/VirusScan/Engine/Sophos/Sweep.pm
@@ -40,7 +41,8 @@ t/email-virusscan-trivial.t
 t/engine-base-class.t
 t/fprot-daemon.t
 t/fsecure-fsav.t
-t/kaspersky-kav5.t
+t/kaspersky-avp5.t
+t/kaspersky-kavscanner.t
 t/lib/TestVirusPlugin.pm
 t/nai-uvscan.t
 t/perlcriticrc
