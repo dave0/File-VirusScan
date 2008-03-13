@@ -26,6 +26,7 @@ lib/Email/VirusScan/Engine/NAI/Uvscan.pm
 lib/Email/VirusScan/Engine/Sophos/Savscan.pm
 lib/Email/VirusScan/Engine/Sophos/Sweep.pm
 lib/Email/VirusScan/Engine/Symantec/CSS.pm
+lib/Email/VirusScan/Engine/Trend/Vscan.pm
 lib/Email/VirusScan/Result.pm
 lib/Email/VirusScan/ResultSet.pm
 Makefile.PL
@@ -53,3 +54,4 @@ t/pod.t
 t/sophos-savscan.t
 t/sophos-sweep.t
 t/symantec-css.t
+t/trend-vscan.t
