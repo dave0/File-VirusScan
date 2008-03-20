@@ -20,10 +20,8 @@ sub scan
 
 	my $path = undef;
 	my $tmpfile_used = 0;
-	# TODO FIXME: need to add get_body_path() to Email::Abstract
-	if( $email->can('get_body_path') ) {
-		# Good, it's a new enough Email::Abstract
-		$path = $email->get_body_path();
+	if( $email->can('get_body_path')
+	    && ($path = $email->get_body_path() ) {
 		if( abs_path( $path ) ne $path ) {
 			carp "Path $path is not absolute; qualifying with " . cwd();
 			$path = abs_path($path);
@@ -118,7 +116,8 @@ Email::VirusScan::Engine - Engine class for Email::VirusScan backends
 
 =head1 DESCRIPTION
 
-TODO
+Email::VirusScan::Engine provides a base class and utility methods for
+implementing Email::VirusScan support for various virus scanners.
 
 =head1 INSTANCE METHODS
 
