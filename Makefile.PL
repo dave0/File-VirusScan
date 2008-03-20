@@ -5,15 +5,21 @@ use inc::Module::Install;
 name	 'Email-VirusScan';
 all_from 'lib/Email/VirusScan.pm';
 
-build_requires 'Test::More'      => 0;
-build_requires 'Test::Class'     => 0;
-build_requires 'Test::Exception' => 0;
+build_requires 'Test::More';
+build_requires 'Test::Class';
+build_requires 'Test::Exception';
 
 
-requires 'File::Temp'      => 0;
-requires 'Scalar::Util'    => 0;
-requires 'Email::Abstract' => 0;
-requires 'Data::ResultSet' => 0;
+requires 'File::Temp';
+requires 'IO::File';
+requires 'IO::Dir';
+requires 'Scalar::Util';
+requires 'Email::Abstract';
+requires 'Data::ResultSet';
 
-auto_install;
+# Required for some scanners, but not all
+recommends 'IO::Socket::INET';
+recommends 'IO::Socket::UNIX';
+recommends 'IO::Select';
+
 WriteAll;
