@@ -21,7 +21,7 @@ sub scan
 	my $path = undef;
 	my $tmpfile_used = 0;
 	if( $email->can('get_body_path')
-	    && ($path = $email->get_body_path() ) {
+	    && ($path = $email->get_body_path() ) ) {
 		if( abs_path( $path ) ne $path ) {
 			carp "Path $path is not absolute; qualifying with " . cwd();
 			$path = abs_path($path);
