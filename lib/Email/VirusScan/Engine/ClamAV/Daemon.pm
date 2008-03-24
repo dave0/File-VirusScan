@@ -30,6 +30,7 @@ sub new
 
 	my $self = {
 		socket_name   => $conf->{socket_name},
+		ping_timeout  => $conf->{ping_timeout}  || 5,
 		read_timeout  => $conf->{read_timeout}  || 60,
 		write_timeout => $conf->{write_timeout} || 30,
 		zip_fallback  => $conf->{zip_fallback}  || undef,
@@ -65,9 +66,40 @@ sub scan_path
 
 	my $s = IO::Select->new( $sock );
 
+	if ( ! $s->can_write( $self->{ping_timeout}) ) {
+		$sock->close;
+		return Email::VirusScan::result->error("Timeout waiting to write PING to clamd daemon at $self->{socket_name}");
+	}
+
+	if( ! $sock->print("SESSION\nPING\n") ) {
+		$sock->close;
+		return Email::VirusScan::Result->error( 'Could not ping clamd' );
+	}
+
+	if( ! $sock->flush ) {
+		$sock->close;
+		return Email::VirusScan::Result->error( 'Could not flush clamd socket' );
+	}
+
+	if ( ! $s->can_read( $self->{ping_timeout}) ) {
+		$sock->close;
+		return Email::VirusScan::Result->error("Timeout reading from clamd daemon at $self->{socket_name}");
+	}
+
+	my $ping_response;
+	if( ! $sock->sysread( $ping_response, 256 ) ) {
+		$sock->close;
+		return Email::VirusScan::Result->error( 'Did not get ping response from clamd' );
+	}
+
+	if( ! defined $ping_response || $ping_response ne "PONG\n" ) {
+		$sock->close;
+		return Email::VirusScan::Result->error( 'Did not get ping response from clamd' );
+	}
+
 	if ( ! $s->can_write( $self->{write_timeout}) ) {
 		$sock->close;
-		return Email::VirusScan::result->error("Timeout writing to clamd daemon at $self->{socket_name}");
+		return Email::VirusScan::result->error("Timeout waiting to write SCAN to clamd daemon at $self->{socket_name}");
 	}
 
 	if( ! $sock->print("SCAN $path\n") ) {
@@ -90,11 +122,16 @@ sub scan_path
 
 	my $scan_response;
 
-	my $rc = $sock->sysread( $scan_response, 256 );
-	$sock->close();
-
-	if( ! $rc ) {
+	if( ! $sock->sysread( $scan_response, 256 ) ) {
+		$sock->close;
 		return Email::VirusScan::Result->error( "Did not get response from clamd while scanning $path" );
+	}
+
+	# End session
+	my $rc = $sock->print("END\n");
+	$sock->close();
+	if( ! $rc ) {
+		return Email::VirusScan::Result->error( "Could not get clamd to scan $path" );
 	}
 
 	# TODO: what if more than one virus found?
