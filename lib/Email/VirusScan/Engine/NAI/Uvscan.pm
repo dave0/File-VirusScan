@@ -15,13 +15,13 @@ sub new
 {
 	my ($class, $conf) = @_;
 
-	if( ! $conf->{command} ) {
+	if(!$conf->{command}) {
 		croak "Must supply a 'command' config value for $class";
 	}
 
 	my $self = {
-		command     => $conf->{command},
-		args	    => [ '--mime', '--noboot', '--secure', '--allole' ],
+		command => $conf->{command},
+		args    => [ '--mime', '--noboot', '--secure', '--allole' ],
 	};
 
 	return bless $self, $class;
@@ -31,44 +31,41 @@ sub scan_path
 {
 	my ($self, $path) = @_;
 
-	if( abs_path($path) ne $path ) {
-		return Email::VirusScan::Result->error( "Path $path is not absolute" );
+	if(abs_path($path) ne $path) {
+		return Email::VirusScan::Result->error("Path $path is not absolute");
 	}
 
-	my ($exitcode, $scan_response) = eval {
-		$self->_run_commandline_scanner(
-			join(' ', $self->{command}, @{$self->{args}}, $path, '2>&1'),
-			qr/Found/,
-		);
-	};
+	my ($exitcode, $scan_response) = eval { $self->_run_commandline_scanner(join(' ', $self->{command}, @{ $self->{args} }, $path, '2>&1'), qr/Found/,); };
 
-	if( $@ ) {
-		return Email::VirusScan::Result->error( $@ );
+	if($@) {
+		return Email::VirusScan::Result->error($@);
 	}
 
-	if( 0 == $exitcode ) {
+	if(0 == $exitcode) {
 		return Email::VirusScan::Result->clean();
 	}
 
-	if( 2 == $exitcode ) {
+	if(2 == $exitcode) {
 		return Email::VirusScan::Result->error('Driver integrity check failed');
 	}
 
-	if( 6 == $exitcode ) {
+	if(6 == $exitcode) {
+
 		# "A general problem occurred" -- idiot Windoze
 		# programmers... nothing else to do but pass it on
 		return Email::VirusScan::Result->error('General problem occurred');
 	}
 
-	if( 8 == $exitcode ) {
+	if(8 == $exitcode) {
 		return Email::VirusScan::Result->error('Could not find a driver');
 	}
 
-	if( 12 == $exitcode ) {
+	if(12 == $exitcode) {
 		return Email::VirusScan::Result->error('Scanner tried to clean file, but failed');
 	}
 
-	if( 13 == $exitcode ) {
+	if(13 == $exitcode) {
+
 		# Finally, the virus-hit case
 		#
 		# TODO: what if more than one virus found?
@@ -81,7 +78,7 @@ sub scan_path
 
 		my $virus_name = '';
 
-		for( $scan_response ) {
+		for ($scan_response) {
 			m/Found: EICAR test file/i && do {
 				$virus_name = 'EICAR-Test';
 				last;
@@ -100,18 +97,18 @@ sub scan_path
 			};
 		}
 
-		if( $virus_name eq '' ) {
+		if($virus_name eq '') {
 			$virus_name = 'unknown-NAI-virus';
 		}
 
-		return Email::VirusScan::Result->virus( $virus_name );
+		return Email::VirusScan::Result->virus($virus_name);
 	}
 
-	if( 19 == $exitcode ) {
+	if(19 == $exitcode) {
 		return Email::VirusScan::Result->error('Self-check failed');
 	}
 
-	if( 102 == $exitcode ) {
+	if(102 == $exitcode) {
 		return Email::VirusScan::Result->error('User quit using --exit-on-error');
 	}
 

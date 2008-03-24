@@ -15,7 +15,7 @@ sub new
 {
 	my ($class, $conf) = @_;
 
-	if( ! $conf->{command} ) {
+	if(!$conf->{command}) {
 		croak "Must supply a 'command' config value for $class";
 	}
 
@@ -31,47 +31,43 @@ sub scan_path
 {
 	my ($self, $path) = @_;
 
-	if( abs_path($path) ne $path ) {
-		return Email::VirusScan::Result->error( "Path $path is not absolute" );
+	if(abs_path($path) ne $path) {
+		return Email::VirusScan::Result->error("Path $path is not absolute");
 	}
 
-	my ($exitcode, $scan_response) = eval {
-		$self->_run_commandline_scanner(
-			join(' ', $self->{command}, @{$self->{args}}, $path, '2>&1')
-		);
-	};
+	my ($exitcode, $scan_response) = eval { $self->_run_commandline_scanner(join(' ', $self->{command}, @{ $self->{args} }, $path, '2>&1')); };
 
-	if( $@ ) {
-		return Email::VirusScan::Result->error( $@ );
+	if($@) {
+		return Email::VirusScan::Result->error($@);
 	}
 
-	if( 0 == $exitcode ) {
+	if(0 == $exitcode) {
 		return Email::VirusScan::Result->clean();
 	}
 
-	if( 1 == $exitcode ) {
+	if(1 == $exitcode) {
 		return Email::VirusScan::Result->error('Unrecoverable error');
 	}
 
-	if( 2 == $exitcode ) {
+	if(2 == $exitcode) {
 		return Email::VirusScan::Result->error('Driver integrity check failed');
 	}
 
-	if( 3 == $exitcode ) {
+	if(3 == $exitcode) {
 		my ($virus_name) = $scan_response =~ m/Infection\: (\S+)/;
 		$virus_name ||= 'unknown-FPROT-virus';
 		return Email::VirusScan::Result->virus($virus_name);
 	}
 
-	if( 5 == $exitcode ) {
+	if(5 == $exitcode) {
 		return Email::VirusScan::Result->error('Abnormal scanner termination');
 	}
 
-	if( 7 == $exitcode ) {
+	if(7 == $exitcode) {
 		return Email::VirusScan::Result->error('Memory error');
 	}
 
-	if( 8 == $exitcode ) {
+	if(8 == $exitcode) {
 		return Email::VirusScan::Result->virus('FPROT-suspicious');
 	}
 

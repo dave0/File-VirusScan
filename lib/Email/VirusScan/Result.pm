@@ -7,10 +7,11 @@ sub new
 {
 	my ($class, $args) = @_;
 	my $self = {
+
 		# TODO: really should be a subclass instead of is_whatever
-		is_virus    => $args->{is_virus} || 0,
-		is_error    => $args->{is_error} || 0,
-		data        => $args->{data},
+		is_virus => $args->{is_virus} || 0,
+		is_error => $args->{is_error} || 0,
+		data     => $args->{data},
 	};
 	return bless $self, $class;
 }
@@ -18,19 +19,23 @@ sub new
 sub error
 {
 	my ($class, $err) = @_;
-	return $class->new({
-		is_error => 1,
-		data     => $err,
-	});
+	return $class->new(
+		{
+			is_error => 1,
+			data     => $err,
+		}
+	);
 }
 
 sub virus
 {
 	my ($class, $vname) = @_;
-	return $class->new({
-		is_virus => 1,
-		data     => $vname,
-	});
+	return $class->new(
+		{
+			is_virus => 1,
+			data     => $vname,
+		}
+	);
 }
 
 sub clean
@@ -42,19 +47,19 @@ sub clean
 sub is_virus
 {
 	my ($self) = @_;
-	return $self->{is_virus}
+	return $self->{is_virus};
 }
 
 sub is_error
 {
 	my ($self) = @_;
-	return $self->{is_error}
+	return $self->{is_error};
 }
 
 sub is_clean
 {
 	my ($self) = @_;
-	return !($self->{is_virus} || $self->{is_error} );
+	return !($self->{is_virus} || $self->{is_error});
 }
 
 sub get_data

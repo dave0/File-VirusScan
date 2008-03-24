@@ -16,13 +16,11 @@ sub new
 {
 	my ($class, $conf) = @_;
 
-	if( ! $conf->{socket_name} ) {
+	if(!$conf->{socket_name}) {
 		croak "Must supply a 'socket_name' config value for $class";
 	}
 
-	my $self = {
-		socket_name   => $conf->{socket_name},
-	};
+	my $self = { socket_name => $conf->{socket_name}, };
 
 	return bless $self, $class;
 }
@@ -31,8 +29,8 @@ sub _get_socket
 {
 	my ($self) = @_;
 
-	my $sock =  IO::Socket::UNIX->new( Peer => $self->{socket_name} );
-	if( ! defined $sock ) {
+	my $sock = IO::Socket::UNIX->new(Peer => $self->{socket_name});
+	if(!defined $sock) {
 		croak "Error: Could not connect to sophie daemon at $self->{socket_name}";
 	}
 
@@ -43,44 +41,44 @@ sub scan_path
 {
 	my ($self, $path) = @_;
 
-	if( abs_path($path) ne $path ) {
-		return Email::VirusScan::Result->error( "Path $path is not absolute" );
+	if(abs_path($path) ne $path) {
+		return Email::VirusScan::Result->error("Path $path is not absolute");
 	}
 
 	my $sock = eval { $self->_get_socket };
-	if( $@ ) {
-		return Email::VirusScan::Result->error( $@ );
+	if($@) {
+		return Email::VirusScan::Result->error($@);
 	}
 
-	if( ! $sock->print("$path\n") ) {
+	if(!$sock->print("$path\n")) {
 		$sock->close;
-		return Email::VirusScan::Result->error( "Could not get sophie to scan $path" );
+		return Email::VirusScan::Result->error("Could not get sophie to scan $path");
 	}
 
-	if( ! $sock->flush ) {
+	if(!$sock->flush) {
 		$sock->close;
-		return Email::VirusScan::Result->error( "Could not get sophie to scan $path" );
+		return Email::VirusScan::Result->error("Could not get sophie to scan $path");
 	}
 
 	my $scan_response;
-	my $rc = $sock->sysread( $scan_response, 256 );
+	my $rc = $sock->sysread($scan_response, 256);
 	$sock->close();
 
-	if( ! $rc ) {
-		return Email::VirusScan::Result->error( "Did not get response from sophie while scanning $path" );
+	if(!$rc) {
+		return Email::VirusScan::Result->error("Did not get response from sophie while scanning $path");
 	}
 
-	if( $scan_response =~ m/^0/ ) {
+	if($scan_response =~ m/^0/) {
 		return Email::VirusScan::Result->clean();
 	}
 
-	if( $scan_response =~ m/^1/ ) {
+	if($scan_response =~ m/^1/) {
 		my ($virus_name) = $scan_response =~ /^1:(.*)$/;
 		$virus_name ||= 'Unknown-sophie-virus';
 		return Email::VirusScan::Result->virus($virus_name);
 	}
 
-	if( $scan_response =~ m/^-1:(.*)$/ ) {
+	if($scan_response =~ m/^-1:(.*)$/) {
 		my $error_message = $1;
 		$error_message ||= 'unknown error';
 		return Email::VirusScan::Result->error($error_message);

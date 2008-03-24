@@ -15,7 +15,7 @@ sub new
 {
 	my ($class, $conf) = @_;
 
-	if( ! $conf->{command} ) {
+	if(!$conf->{command}) {
 		croak "Must supply a 'command' config value for $class";
 	}
 
@@ -31,27 +31,23 @@ sub scan_path
 {
 	my ($self, $path) = @_;
 
-	if( abs_path($path) ne $path ) {
-		return Email::VirusScan::Result->error( "Path $path is not absolute" );
+	if(abs_path($path) ne $path) {
+		return Email::VirusScan::Result->error("Path $path is not absolute");
 	}
 
-	my ($exitcode, $scan_response) = eval {
-		$self->_run_commandline_scanner(
-			join(' ', $self->{command}, @{$self->{args}}, $path, '2>&1'),
-			'Found',
-		);
-	};
+	my ($exitcode, $scan_response) = eval { $self->_run_commandline_scanner(join(' ', $self->{command}, @{ $self->{args} }, $path, '2>&1'), 'Found',); };
 
-	if( $@ ) {
-		return Email::VirusScan::Result->error( $@ );
+	if($@) {
+		return Email::VirusScan::Result->error($@);
 	}
 
-	if( 0 == $exitcode ) {
+	if(0 == $exitcode) {
 		return Email::VirusScan::Result->clean();
 	}
 
-	if( $exitcode >= 1 &&
-	    $exitcode <  10 ) {
+	if(        $exitcode >= 1
+		&& $exitcode < 10)
+	{
 		my ($virus_name) = $scan_response =~ m/^\*+ Found virus (\S+)/;
 		$virus_name ||= 'unknown-Trend-virus';
 		return Email::VirusScan::Result->virus($virus_name);

@@ -14,37 +14,39 @@ sub scan
 {
 	my ($self, $email) = @_;
 
-	unless( blessed( $email ) && $email->isa('Email::Abstract') ) {
+	unless (blessed($email) && $email->isa('Email::Abstract')) {
 		croak q{argument to scan() must be an Email::Abstract object};
 	}
 
-	my $path = undef;
+	my $path         = undef;
 	my $tmpfile_used = 0;
-	if( $email->can('get_body_path')
-	    && ($path = $email->get_body_path() ) ) {
-		if( abs_path( $path ) ne $path ) {
+	if($email->can('get_body_path')
+		&& ($path = $email->get_body_path()))
+	{
+		if(abs_path($path) ne $path) {
 			carp "Path $path is not absolute; qualifying with " . cwd();
 			$path = abs_path($path);
 		}
 	} else {
+
 		# No path... time to make one
 		$tmpfile_used = 1;
 		my $fh;
 		($fh, $path) = tempfile();
-		if( ! $fh->print( $email->as_string ) ) {
+		if(!$fh->print($email->as_string)) {
 			$fh->close;
 			croak q{Couldn't write email object to temp file};
 		}
 
-		if( ! $fh->close ) {
+		if(!$fh->close) {
 			croak "Couldn't close filehandle: $!";
 		}
 	}
 
-	my $result = $self->scan_path( $path );
+	my $result = $self->scan_path($path);
 
-	if( $tmpfile_used ) {
-		if( ! unlink $path ) {
+	if($tmpfile_used) {
+		if(!unlink $path) {
 			carp "Couldn't unlink $path: $!";
 		}
 	}
@@ -59,12 +61,12 @@ sub _run_commandline_scanner
 	$match = '.*' unless defined $match;
 
 	my $fh = IO::File->new("$command |");
-	unless( $fh ) {
+	unless ($fh) {
 		die "Could not execute '$command': $!";
 	}
 
 	my $msg;
-	while(<$fh>) {
+	while (<$fh>) {
 		$msg .= $_ if /$match/oi;
 	}
 	$fh->close;
@@ -76,23 +78,23 @@ sub list_files
 {
 	my ($self, $path) = @_;
 
-	if( ! -d $path ) {
+	if(!-d $path) {
 		return $path;
 	}
 
-	my $dir = IO::Dir->new( $path );
-	if( ! $dir ) {
+	my $dir = IO::Dir->new($path);
+	if(!$dir) {
 		croak "Could not open directory $path: $!";
 	}
 
 	my @files;
 
-	for my $name ( $dir->read ) {
-		next if ($name eq '.' || $name eq '..');
+	for my $name ($dir->read) {
+		next if($name eq '.' || $name eq '..');
 		my $full_name = "$path/$name";
-		if( -f $full_name ) {
+		if(-f $full_name) {
 			push @files, $full_name;
-		} elsif ( -d _ ) {
+		} elsif(-d _ ) {
 			push @files, $self->list_files($full_name);
 		}
 	}
@@ -100,7 +102,6 @@ sub list_files
 	$dir->close;
 	return @files;
 }
-
 
 1;
 __END__

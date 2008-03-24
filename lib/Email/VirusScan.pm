@@ -15,14 +15,14 @@ sub new
 {
 	my ($class, $conf) = @_;
 
-	if ( ! exists $conf->{engines} || ! scalar keys %{$conf->{engines}} ) {
+	if(!exists $conf->{engines} || !scalar keys %{ $conf->{engines} }) {
 		croak q{Must supply an 'engines' value to constructor};
 	}
 
 	my %backends;
 
 	# Load and initialise our backend engines
-	while( my ($moniker, $backend_conf) = each %{ $conf->{engines} } ) {
+	while (my ($moniker, $backend_conf) = each %{ $conf->{engines} }) {
 
 		$moniker =~ s/[^-A-Za-z0-9_]//;
 		my $backclass = $moniker;
@@ -30,19 +30,17 @@ sub new
 		substr($backclass, 0, 1, 'Email::VirusScan::Engine::') if substr($backclass, 0, 1) eq '-';
 
 		eval qq{use $backclass;};  ## no critic(StringyEval)
-		if( $@ ) {                 ## no critic(PunctuationVars)
+		if($@) {                   ## no critic(PunctuationVars)
 			croak "Unable to find class $backclass for backend '$moniker'";
 		}
 
-		$backends{$moniker} = $backclass->new( $backend_conf );
+		$backends{$moniker} = $backclass->new($backend_conf);
 	}
 
-	my $self = {
-		always_scan => $conf->{always_scan},
-	};
+	my $self = { always_scan => $conf->{always_scan}, };
 
-	if( exists $conf->{order} ) {
-		$self->{_backends} = [ @backends{ @{$conf->{order}} } ];
+	if(exists $conf->{order}) {
+		$self->{_backends} = [ @backends{ @{ $conf->{order} } } ];
 	} else {
 		$self->{_backends} = [ values %backends ];
 	}
@@ -56,18 +54,19 @@ sub scan
 
 	my $result = Email::VirusScan::ResultSet->new();
 
-	for my $back ( @{$self->{_backends}} ) {
+	for my $back (@{ $self->{_backends} }) {
 
-		my $scan_result = eval { $back->scan( $ea ) };
+		my $scan_result = eval { $back->scan($ea) };
 
-		if( $@ ) {
-			$result->add( Email::VirusScan::Result->error("Error calling ->scan(): $@") );
+		if($@) {
+			$result->add(Email::VirusScan::Result->error("Error calling ->scan(): $@"));
 		} else {
-			$result->add( $scan_result );
+			$result->add($scan_result);
 		}
 
-		if( ! $self->{always_scan}
-		    && $result->has_virus() ) {
+		if(!$self->{always_scan}
+			&& $result->has_virus())
+		{
 			last;
 		}
 	}
@@ -81,18 +80,19 @@ sub scan_path
 
 	my $result = Email::VirusScan::ResultSet->new();
 
-	for my $back ( @{$self->{_backends}} ) {
+	for my $back (@{ $self->{_backends} }) {
 
-		my $scan_result = eval { $back->scan_path( $path ) };
+		my $scan_result = eval { $back->scan_path($path) };
 
-		if( $@ ) {
-			$result->add( Email::VirusScan::Result->error("Error calling ->scan(): $@") );
+		if($@) {
+			$result->add(Email::VirusScan::Result->error("Error calling ->scan(): $@"));
 		} else {
-			$result->add( $scan_result );
+			$result->add($scan_result);
 		}
 
-		if( ! $self->{always_scan}
-		    && $result->has_virus() ) {
+		if(!$self->{always_scan}
+			&& $result->has_virus())
+		{
 			last;
 		}
 	}

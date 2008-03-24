@@ -15,14 +15,15 @@ sub new
 {
 	my ($class, $conf) = @_;
 
-	if( ! $conf->{command} ) {
+	if(!$conf->{command}) {
 		croak "Must supply a 'command' config value for $class";
 	}
 
 	my $self = {
-		command     => $conf->{command},
+		command => $conf->{command},
+
 		# TODO: should /var/run/aveserver be hardcoded?
-		args	    => [ '-s', '-p', '/var/run/aveserver' ],
+		args => [ '-s', '-p', '/var/run/aveserver' ],
 	};
 
 	return bless $self, $class;
@@ -32,52 +33,55 @@ sub scan_path
 {
 	my ($self, $path) = @_;
 
-	if( abs_path($path) ne $path ) {
-		return Email::VirusScan::Result->error( "Path $path is not absolute" );
+	if(abs_path($path) ne $path) {
+		return Email::VirusScan::Result->error("Path $path is not absolute");
 	}
 
-	my ($exitcode, $scan_response) = eval {
-		$self->_run_commandline_scanner(
-			join(' ', $self->{command}, @{$self->{args}}, $path, '2>&1'),
-			'INFECTED',
-		);
-	};
+	my ($exitcode, $scan_response) = eval { $self->_run_commandline_scanner(join(' ', $self->{command}, @{ $self->{args} }, $path, '2>&1'), 'INFECTED',); };
 
-	if( $@ ) {
-		return Email::VirusScan::Result->error( $@ );
+	if($@) {
+		return Email::VirusScan::Result->error($@);
 	}
 
-	if( 0 == $exitcode ||
-	    5 == $exitcode ||
-	    6 == $exitcode ) {
+	if(        0 == $exitcode
+		|| 5 == $exitcode
+		|| 6 == $exitcode)
+	{
+
 		# 0 == clean
 		# 5 == disinfected
 		# 6 == viruses deleted
 		return Email::VirusScan::Result->clean();
 	}
 
-	if( 1 == $exitcode ) {
+	if(1 == $exitcode) {
+
 		# 1 == scan incomplete
 		return Email::VirusScan::Result->error('Scanning interrupted');
 	}
 
-	if( 2 == $exitcode ||
-	    4 == $exitcode ) {
-		# 2 == "modified or damaged virus" 
+	if(        2 == $exitcode
+		|| 4 == $exitcode)
+	{
+
+		# 2 == "modified or damaged virus"
 		# 4 == virus
 		my ($virus_name) = $scan_response =~ m/INFECTED (\S+)/;
 		$virus_name ||= 'unknown-AVP5-virus';
-		return Email::VirusScan::Result->virus( $virus_name );
+		return Email::VirusScan::Result->virus($virus_name);
 	}
 
-	if( 3 == $exitcode ||
-	    8 == $exitcode ) {
+	if(        3 == $exitcode
+		|| 8 == $exitcode)
+	{
+
 		# 3 == "suspicious" object found
 		# 8 == corrupt objects found (treat as suspicious
 		return Email::VirusScan::Result->virus('AVP5-suspicious');
 	}
 
-	if( 7 == $exitcode ) {
+	if(7 == $exitcode) {
+
 		# 7 == AVPLinux corrupt or infected
 		return Email::VirusScan::Result->error('AVPLinux corrupt or infected');
 	}

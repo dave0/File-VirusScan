@@ -17,13 +17,13 @@ sub new
 {
 	my ($class, $conf) = @_;
 
-	if( ! $conf->{command} ) {
+	if(!$conf->{command}) {
 		croak "Must supply a 'command' config value for $class";
 	}
 
 	my $self = {
-		command     => $conf->{command},
-		args	    => [ ],
+		command => $conf->{command},
+		args    => [],
 	};
 
 	return bless $self, $class;
@@ -33,45 +33,43 @@ sub scan_path
 {
 	my ($self, $path) = @_;
 
-	if( abs_path($path) ne $path ) {
-		return Email::VirusScan::Result->error( "Path $path is not absolute" );
+	if(abs_path($path) ne $path) {
+		return Email::VirusScan::Result->error("Path $path is not absolute");
 	}
 
-	my ($exitcode, $scan_response) = eval {
-		$self->_run_commandline_scanner(
-			join(' ', $self->{command}, @{$self->{args}}, $path, '2>&1')
-		);
-	};
+	my ($exitcode, $scan_response) = eval { $self->_run_commandline_scanner(join(' ', $self->{command}, @{ $self->{args} }, $path, '2>&1')); };
 
-	if( $@ ) {
-		return Email::VirusScan::Result->error( $@ );
+	if($@) {
+		return Email::VirusScan::Result->error($@);
 	}
 
-	if( 50 == $exitcode ) {
+	if(50 == $exitcode) {
 		return Email::VirusScan::Result->clean();
 	}
 
-	if( 5 == $exitcode ) {
+	if(5 == $exitcode) {
 		return Email::VirusScan::Result->error('Scan interrupted');
 	}
 
-	if( 101 == $exitcode ) {
+	if(101 == $exitcode) {
 		return Email::VirusScan::Result->error('Out of memory');
 	}
 
-	if( 52 == $exitcode ) {
+	if(52 == $exitcode) {
+
 		# 52 == "suspicious" files
 		return Email::VirusScan::Result->virus('suspicious-CSAV-files');
 	}
 
-	if( 53 == $exitcode ) {
+	if(53 == $exitcode) {
+
 		# Found and disinfected
 		return Email::VirusScan::Result->virus('unknown-CSAV-virus disinfected');
 	}
 
-	if( 51 == $exitcode ) {
+	if(51 == $exitcode) {
 		my ($virus_name) = $scan_response =~ m/infec.*\: (\S+)/i;
-		if( ! $virus_name ) {
+		if(!$virus_name) {
 			$virus_name = 'unknown-CSAV-virus';
 		}
 		return Email::VirusScan::Result->virus($virus_name);

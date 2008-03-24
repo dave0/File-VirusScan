@@ -15,13 +15,13 @@ sub new
 {
 	my ($class, $conf) = @_;
 
-	if( ! $conf->{command} ) {
+	if(!$conf->{command}) {
 		croak "Must supply a 'command' config value for $class";
 	}
 
 	my $self = {
-		command     => $conf->{command},
-		args	    => [ '-u', '-c', '-s' ],
+		command => $conf->{command},
+		args    => [ '-u', '-c', '-s' ],
 	};
 
 	return bless $self, $class;
@@ -31,33 +31,30 @@ sub scan_path
 {
 	my ($self, $path) = @_;
 
-	if( abs_path($path) ne $path ) {
-		return Email::VirusScan::Result->error( "Path $path is not absolute" );
+	if(abs_path($path) ne $path) {
+		return Email::VirusScan::Result->error("Path $path is not absolute");
 	}
 
-	my ($exitcode, $scan_response) = eval {
-		$self->_run_commandline_scanner(
-			join(' ', $self->{command}, @{$self->{args}}, $path, '2>&1')
-		);
-	};
+	my ($exitcode, $scan_response) = eval { $self->_run_commandline_scanner(join(' ', $self->{command}, @{ $self->{args} }, $path, '2>&1')); };
 
-	if( $@ ) {
-		return Email::VirusScan::Result->error( $@ );
+	if($@) {
+		return Email::VirusScan::Result->error($@);
 	}
 
-	if( 0 == $exitcode ) {
+	if(0 == $exitcode) {
 		return Email::VirusScan::Result->clean();
 	}
 
-	if( 1 == $exitcode ||
-	    2 == $exitcode ||
-	    14 == $exitcode ) {
+	if(        1 == $exitcode
+		|| 2 == $exitcode
+		|| 14 == $exitcode)
+	{
 		my ($virus_name) = $scan_response =~ m/Possible virus[^']*'(\S+)'$/;
 		$virus_name ||= 'unknown-NVCC-virus';
 		return Email::VirusScan::Result->virus($virus_name);
 	}
 
-	if( 11 == $exitcode ) {
+	if(11 == $exitcode) {
 		return Email::VirusScan::Result->virus('NVCC-suspicious-code-11');
 	}
 

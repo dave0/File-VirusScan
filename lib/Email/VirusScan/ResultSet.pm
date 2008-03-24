@@ -5,7 +5,7 @@ use vars qw( @ISA );
 use Data::ResultSet;
 @ISA = qw( Data::ResultSet );
 
-__PACKAGE__->make_wrappers( qw( is_virus is_error is_clean ) );
+__PACKAGE__->make_wrappers(qw( is_virus is_error is_clean ));
 
 1;
 __END__

@@ -7,4 +7,5 @@ MANIFEST.SKIP
 MANIFEST.bak
 Makefile$
 Makefile.old
-META.yml
+\.bak$
+Email-VirusScan-.*\.tar\.gz

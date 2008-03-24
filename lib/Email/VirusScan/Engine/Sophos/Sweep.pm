@@ -15,13 +15,13 @@ sub new
 {
 	my ($class, $conf) = @_;
 
-	if( ! $conf->{command} ) {
+	if(!$conf->{command}) {
 		croak "Must supply a 'command' config value for $class";
 	}
 
 	my $self = {
-		command     => $conf->{command},
-		args	    => [ '-f', '-mime', '-all', '-archive', '-ss' ],
+		command => $conf->{command},
+		args    => [ '-f', '-mime', '-all', '-archive', '-ss' ],
 	};
 
 	return bless $self, $class;
@@ -31,30 +31,26 @@ sub scan_path
 {
 	my ($self, $path) = @_;
 
-	if( abs_path($path) ne $path ) {
-		return Email::VirusScan::Result->error( "Path $path is not absolute" );
+	if(abs_path($path) ne $path) {
+		return Email::VirusScan::Result->error("Path $path is not absolute");
 	}
 
-	my ($exitcode, $scan_response) = eval {
-		$self->_run_commandline_scanner(
-			join(' ', $self->{command}, @{$self->{args}}, $path, '2>&1'),
-			qr/(?:>>> Virus)|(?:Password)|(?:Could not check)/,
-		);
-	};
+	my ($exitcode, $scan_response) = eval { $self->_run_commandline_scanner(join(' ', $self->{command}, @{ $self->{args} }, $path, '2>&1'), qr/(?:>>> Virus)|(?:Password)|(?:Could not check)/,); };
 
-	if( $@ ) {
-		return Email::VirusScan::Result->error( $@ );
+	if($@) {
+		return Email::VirusScan::Result->error($@);
 	}
 
-	if( 0 == $exitcode ) {
+	if(0 == $exitcode) {
 		return Email::VirusScan::Result->clean();
 	}
 
-	if( 1 == $exitcode ) {
+	if(1 == $exitcode) {
 		return Email::VirusScan::Result->error('Virus scan interrupted');
 	}
 
-	if( 2 == $exitcode ) {
+	if(2 == $exitcode) {
+
 		# This is technically an error code, but Sophos chokes
 		# on a lot of M$ docs with this code, so we let it
 		# through...
@@ -63,10 +59,10 @@ sub scan_path
 		return Email::VirusScan::Result->clean();
 	}
 
-	if( 3 == $exitcode ) {
+	if(3 == $exitcode) {
 		my ($virus_name) = $scan_response =~ m/\s*>>> Virus '(\S+)'/;
 		$virus_name ||= 'unknown-Sweep-virus';
-		return Email::VirusScan::Result->virus( $virus_name );
+		return Email::VirusScan::Result->virus($virus_name);
 	}
 
 	return Email::VirusScan::Result->error("Unknown return code from sweep: $exitcode");

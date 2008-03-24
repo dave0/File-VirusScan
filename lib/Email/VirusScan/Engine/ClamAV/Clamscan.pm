@@ -15,13 +15,13 @@ sub new
 {
 	my ($class, $conf) = @_;
 
-	if( ! $conf->{command} ) {
+	if(!$conf->{command}) {
 		croak "Must supply a 'command' config value for $class";
 	}
 
 	my $self = {
-		command     => $conf->{command},
-		args	    => [ '--stdout', '--no-summary', '--infected' ],
+		command => $conf->{command},
+		args    => [ '--stdout', '--no-summary', '--infected' ],
 	};
 
 	return bless $self, $class;
@@ -31,32 +31,29 @@ sub scan_path
 {
 	my ($self, $path) = @_;
 
-	if( abs_path($path) ne $path ) {
-		return Email::VirusScan::Result->error( "Path $path is not absolute" );
+	if(abs_path($path) ne $path) {
+		return Email::VirusScan::Result->error("Path $path is not absolute");
 	}
 
-	my ($exitcode, $scan_response) = eval {
-		$self->_run_commandline_scanner(
-			join(' ', $self->{command}, @{$self->{args}}, $path, '2>&1')
-		);
-	};
+	my ($exitcode, $scan_response) = eval { $self->_run_commandline_scanner(join(' ', $self->{command}, @{ $self->{args} }, $path, '2>&1')); };
 
-	if( $@ ) {
-		return Email::VirusScan::Result->error( $@ );
+	if($@) {
+		return Email::VirusScan::Result->error($@);
 	}
 
-	if( 0 == $exitcode ) {
+	if(0 == $exitcode) {
 		return Email::VirusScan::Result->clean();
 	}
 
-	if( 1 == $exitcode ) {
+	if(1 == $exitcode) {
+
 		# TODO: what if more than one virus found?
 		# TODO: can/should we capture infected filenames?
-		if( $scan_response =~ m/: (.+) FOUND/ ) {
-			return Email::VirusScan::Result->virus( $1 );
-		} elsif ( $scan_response =~ m/: (.+) ERROR/ ) {
+		if($scan_response =~ m/: (.+) FOUND/) {
+			return Email::VirusScan::Result->virus($1);
+		} elsif($scan_response =~ m/: (.+) ERROR/) {
 			my $err_detail = $1;
-			return Email::VirusScan::Result->error( "clamscan error: $err_detail" );
+			return Email::VirusScan::Result->error("clamscan error: $err_detail");
 		}
 	}
 

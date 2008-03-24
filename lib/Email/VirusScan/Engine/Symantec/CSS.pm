@@ -16,13 +16,13 @@ sub new
 {
 	my ($class, $conf) = @_;
 
-	if( ! $conf->{host} ) {
+	if(!$conf->{host}) {
 		croak "Must supply a 'host' config value for $class";
 	}
 
 	my $self = {
 		host     => $conf->{host},
-		port     => $conf->{port}  || 7777,
+		port     => $conf->{port} || 7777,
 		is_local => $conf->{is_local} || 1,
 	};
 
@@ -37,18 +37,18 @@ sub _get_socket
 		PeerAddr => $self->{host},
 		PeerPort => $self->{port},
 	);
-	if( ! defined $sock ) {
+	if(!defined $sock) {
 		croak "Error: Could not connect to CarrierScan Server on $self->{host}, port $self->{port}: $!";
 	}
 
 	# First reply line should be 220 code
-	my $line = _read_line( $sock );
+	my $line = _read_line($sock);
 	unless ($line =~ /^220/) {
 		croak "Error: Unexpected reply $line from CarrierScan Server";
 	}
 
 	# Next line must be version
-	$line = _read_line( $sock );
+	$line = _read_line($sock);
 	unless ($line eq '2') {
 		croak "Error: Unexpected version $line from CarrierScan Server";
 	}
@@ -61,20 +61,21 @@ sub scan_path
 {
 	my ($self, $path) = @_;
 
-	if( abs_path($path) ne $path ) {
-		return Email::VirusScan::Result->error( "Path $path is not absolute" );
+	if(abs_path($path) ne $path) {
+		return Email::VirusScan::Result->error("Path $path is not absolute");
 	}
 
-	my @files = eval { $self->list_files( $path ) };
-	if( $@ ) {
-		return Email::VirusScan::Result->error( $@ );
+	my @files = eval { $self->list_files($path) };
+	if($@) {
+		return Email::VirusScan::Result->error($@);
 	}
 
 	foreach my $file_path (@files) {
-		my $result = $self->{is_local}
-			? $self->_scan_path_local( $file_path )
-			: $self->_scan_path_remote( $file_path );
-		if( ! $result->is_clean() ) {
+		my $result
+		  = $self->{is_local}
+		  ? $self->_scan_path_local($file_path)
+		  : $self->_scan_path_remote($file_path);
+		if(!$result->is_clean()) {
 			return $result;
 		}
 	}
@@ -85,23 +86,23 @@ sub _scan_path_local
 	my ($self, $path) = @_;
 
 	my $sock = eval { $self->_get_socket };
-	if( $@ ) {
-		return Email::VirusScan::Result->error( $@ );
+	if($@) {
+		return Email::VirusScan::Result->error($@);
 	}
 
-	if( ! $sock->print("Version2\nAVSCANLOCAL\n$path\n") ) {
+	if(!$sock->print("Version2\nAVSCANLOCAL\n$path\n")) {
 		my $err = $!;
 		$sock->close;
 		return Email::VirusScan::Result->error("Could not write to socket: $err");
 	}
 
-	if( ! $sock->flush ) {
+	if(!$sock->flush) {
 		my $err = $!;
 		$sock->close;
 		return Email::VirusScan::Result->error("Error flushing socket: $err");
 	}
 
-	my $result = $self->_parse_server_response( $sock );
+	my $result = $self->_parse_server_response($sock);
 	$sock->close;
 	return $result;
 }
@@ -111,43 +112,44 @@ sub _scan_path_remote
 	my ($self, $path) = @_;
 
 	my $size = (stat($path))[7];
-	unless(defined($size)) {
+	unless (defined($size)) {
 		return Email::VirusScan::Result->error("Cannot stat $path: $!");
 	}
 
 	my $sock = eval { $self->_get_socket };
-	if( $@ ) {
-		return Email::VirusScan::Result->error( $@ );
+	if($@) {
+		return Email::VirusScan::Result->error($@);
 	}
 
-	if( ! $sock->print("Version2\nAVSCAN\n$path\n$size\n") ) {
+	if(!$sock->print("Version2\nAVSCAN\n$path\n$size\n")) {
 		my $err = $!;
 		$sock->close;
 		return Email::VirusScan::Result->error("Could not write to socket: $err");
 	}
 
 	my $fh = IO::File->new("<$path");
-	if( ! $fh ) {
+	if(!$fh) {
 		return Email::VirusScan::Result->error("Cannot open $path: $!");
 	}
 
 	# Write file to socket
-	while( $size > 0 ) {
-		my $chunksize = ($size < 8192)
-			? $size
-			: 8192;
+	while ($size > 0) {
+		my $chunksize
+		  = ($size < 8192)
+		  ? $size
+		  : 8192;
 
 		my $chunk;
 		my $nread = $fh->read($chunk, $chunksize);
-		unless( defined $nread ) {
+		unless (defined $nread) {
 			my $err = $!;
 			$sock->close;
 			return Email::VirusScan::Result->error("Error reading $path: $err");
 		}
 
-		last if ($nread == 0);
+		last if($nread == 0);
 
-		if( ! $sock->print( $chunk ) ) {
+		if(!$sock->print($chunk)) {
 			my $err = $!;
 			$sock->close;
 			return Email::VirusScan::Result->error("Error writing to socket: $err");
@@ -156,19 +158,19 @@ sub _scan_path_remote
 		$size -= $nread;
 	}
 
-	if( $size > 0 ) {
+	if($size > 0) {
 		my $err = $!;
 		$sock->close;
 		return Email::VirusScan::Result->error("Error reading $path: $err");
 	}
 
-	if( ! $sock->flush ) {
+	if(!$sock->flush) {
 		my $err = $!;
 		$sock->close;
 		return Email::VirusScan::Result->error("Error flushing socket: $err");
 	}
 
-	my $result = $self->_parse_server_response( $sock );
+	my $result = $self->_parse_server_response($sock);
 	$sock->close;
 	return $result;
 }
@@ -178,15 +180,15 @@ sub _parse_server_response
 	my ($self, $sock) = @_;
 
 	# Get reply from server
-	my $line = _read_line( $sock );
+	my $line = _read_line($sock);
 
-	unless( $line =~ /^230/ ) {
+	unless ($line =~ /^230/) {
 		return Email::VirusScan::Result->error("Unexpected response to AVSCAN or AVSCANLOCAL command: $line");
 	}
 
 	# Read infection status
-	$line = _read_line( $sock );
-	if( $line eq '0' ) {
+	$line = _read_line($sock);
+	if($line eq '0') {
 		return Email::VirusScan::Result->clean();
 	}
 
@@ -210,7 +212,7 @@ sub _read_line
 {
 	my ($sock) = @_;
 
-	chomp( my $line = $sock->getline );
+	chomp(my $line = $sock->getline);
 	$line =~ s/\r//g;
 	return $line;
 }

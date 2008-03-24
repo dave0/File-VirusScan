@@ -15,13 +15,13 @@ sub new
 {
 	my ($class, $conf) = @_;
 
-	if( ! $conf->{command} ) {
+	if(!$conf->{command}) {
 		croak "Must supply a 'command' config value for $class";
 	}
 
 	my $self = {
-		command     => $conf->{command},
-		args	    => [ '--mail', '--arc' ],
+		command => $conf->{command},
+		args    => [ '--mail', '--arc' ],
 	};
 
 	return bless $self, $class;
@@ -31,31 +31,27 @@ sub scan_path
 {
 	my ($self, $path) = @_;
 
-	if( abs_path($path) ne $path ) {
-		return Email::VirusScan::Result->error( "Path $path is not absolute" );
+	if(abs_path($path) ne $path) {
+		return Email::VirusScan::Result->error("Path $path is not absolute");
 	}
 
-	my ($exitcode, $scan_response) = eval {
-		$self->_run_commandline_scanner(
-			join(' ', $self->{command}, @{$self->{args}}, $path, '2>&1')
-		);
-	};
+	my ($exitcode, $scan_response) = eval { $self->_run_commandline_scanner(join(' ', $self->{command}, @{ $self->{args} }, $path, '2>&1')); };
 
-	if( $@ ) {
-		return Email::VirusScan::Result->error( $@ );
+	if($@) {
+		return Email::VirusScan::Result->error($@);
 	}
 
-	if( $exitcode == 0 ) {
+	if($exitcode == 0) {
 		return Email::VirusScan::Result->clean();
 	}
 
-	if( $exitcode == 1 ) {
+	if($exitcode == 1) {
 		my ($virus_name) = $scan_response =~ m/(?:suspected|infected)\: (\S+)/;
 
-		if( ! $virus_name ) {
+		if(!$virus_name) {
 			$virus_name = 'unknown-bdc-virus';
 		}
-		return Email::VirusScan::Result->virus( $virus_name );
+		return Email::VirusScan::Result->virus($virus_name);
 	}
 
 	return Email::VirusScan::Result->error("Unknown return code from bitdefender: $exitcode");
