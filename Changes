@@ -1,5 +1,8 @@
 Revision history for Email-VirusScan
 
+0.011	Tue, 25 Mar 2008
+	(bugfix) :: wasn't allowed in plugin class names. 
+
 0.010	Thu, 13 Mar 2008
 	Migrate scanner support for all non-obsolete scanners from MIMEDefang
 

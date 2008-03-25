@@ -6,7 +6,7 @@ use Carp;
 use Email::VirusScan::Result;
 use Email::VirusScan::ResultSet;
 
-our $VERSION = '0.010';
+our $VERSION = '0.011';
 
 # We don't use Module::Pluggable.  Most users of this module will have
 # one or two virus scanners, with the other half-dozen or so plugins
@@ -24,7 +24,7 @@ sub new
 	# Load and initialise our backend engines
 	while (my ($moniker, $backend_conf) = each %{ $conf->{engines} }) {
 
-		$moniker =~ s/[^-A-Za-z0-9_]//;
+		$moniker =~ s/[^-A-Za-z0-9_:]//;
 		my $backclass = $moniker;
 
 		substr($backclass, 0, 1, 'Email::VirusScan::Engine::') if substr($backclass, 0, 1) eq '-';
