@@ -9,7 +9,7 @@ use vars qw( @ISA );
 
 use IO::Socket::INET;
 use Cwd 'abs_path';
-
+use HTML::TokeParser;
 use Email::VirusScan::Result;
 
 sub new
