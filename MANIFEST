@@ -35,6 +35,7 @@ MANIFEST
 META.yml
 README
 t/00-load.t
+t/02-kwalitee.t
 t/03-perlcritic.t
 t/bitdefender-bdc.t
 t/centralcommand-vexira.t
