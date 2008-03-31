@@ -125,11 +125,15 @@ L<Cwd>, L<Email::VirusScan::Result>,
 
 L<http://www.sophos.com>
 
-=head1 AUTHOR
+=head1 AUTHORS
 
 David Skoll (dfs@roaringpenguin.com),
+
 Dave O'Neill (dmo@roaringpenguin.com),
-Adam Lanier, Nicholas Brealey
+
+Adam Lanier
+
+Nicholas Brealey
 
 =head1 LICENCE AND COPYRIGHT
 

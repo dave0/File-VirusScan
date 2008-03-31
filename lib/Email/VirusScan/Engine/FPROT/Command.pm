@@ -137,6 +137,7 @@ L<http://www.f-prot.com/>
 =head1 AUTHOR
 
 David Skoll (dfs@roaringpenguin.com)
+
 Dave O'Neill (dmo@roaringpenguin.com)
 
 =head1 LICENCE AND COPYRIGHT

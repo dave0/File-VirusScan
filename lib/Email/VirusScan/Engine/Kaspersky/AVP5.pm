@@ -146,10 +146,12 @@ L<Cwd>, L<Email::VirusScan::Result>,
 
 L<http://www.kaspersky.com/>
 
-=head1 AUTHOR
+=head1 AUTHORS
 
 David Skoll (dfs@roaringpenguin.com)
+
 Dave O'Neill (dmo@roaringpenguin.com)
+
 Enrico Ansaloni
 
 =head1 LICENCE AND COPYRIGHT

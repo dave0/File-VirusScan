@@ -142,7 +142,74 @@ Email::VirusScan - Unified interface for virus scanning of email messages
 =head1 DESCRIPTION
 
 This class provides a common API for scanning email objects with one or
-more third party (ie: not yours, not mine) virus scanners.
+more third party virus scanners.
+
+Virus scanners are supported via pluggable engines under the
+L<Email::VirusScan::Engine> namespace.  At the time of this release,
+the following plugins are shipped with Email::VirusScan:
+
+=over 4
+
+=item Clam Antivirus
+
+Scanning daemon via L<Email::VirusScan::Engine::ClamAV::Daemon>, and
+commandline scanner via L<Email::VirusScan::Engine::ClamAV::Clamscan>
+
+=item NAI UVScan
+
+L<Email::VirusScan::Engine::NAI::Uvscan>
+
+=item F-Secure FSAV
+
+L<Email::VirusScan::Engine::FSecure::FSAV>
+
+=item Trend Micro Vscan
+
+L<Email::VirusScan::Engine::Trend::Vscan>
+
+=item BitDefender BDC
+
+L<Email::VirusScan::Engine::BitDefender::BDC>
+
+=item Command Antivirus
+
+L<Email::VirusScan::Engine::CommandAntivirus>
+
+=item Norman Antivirus
+
+L<Email::VirusScan::Engine::Norman::NVCC>
+
+=item ESET
+
+Scanning via esets_cli with L<Email::VirusScan::Engine::ESET::NOD32>
+
+=item Symantec
+
+Scanning via Carrier Scan server with L<Email::VirusScan::Engine::Symantec::CSS>
+
+=item F-PROT
+
+Scanning daemon via L<Email::VirusScan::Engine::FPROT::Daemon>, and
+commandline scanner via L<Email::VirusScan::Engine::FPROT::Command>
+
+=item Central Command Vexira
+
+L<Email::VirusScan::Engine::CentralCommand::Vexira>
+
+=item Sophos
+
+Daemonized scanning using the Sophie daemon with
+L<Email::VirusScan::Engine::Sophos::Sophie>.  Commandline scanning with
+L<Email::VirusScan::Engine::Sophos::Sweep> or
+L<Email::VirusScan::Engine::Sophos::Savscan>
+
+=item Kaspersky
+
+Scanning with aveserver using
+L<Email::VirusScan::Engine::Kaspersky::AVP5>, or with kavscanner using
+L<Email::VirusScan::Engine::Kaspersky::Kavscanner>
+
+=back
 
 =head1 METHODS
 
@@ -226,6 +293,7 @@ L<Email::Abstract>, L<Email::VirusScan::Engine>, L<Email::VirusScan::Result>
 =head1 AUTHOR
 
 Dave O'Neill (dmo@roaringpenguin.com)
+
 David Skoll  (dfs@roaringpenguin.com>
 
 =head1 LICENCE AND COPYRIGHT

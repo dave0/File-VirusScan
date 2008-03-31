@@ -236,7 +236,7 @@ __END__
 
 =head1 NAME
 
-Email::VirusScan::Engine::FPROT::Daemon - Email::VirusScan backend for scanning with clamd
+Email::VirusScan::Engine::FPROT::Daemon - Email::VirusScan backend for scanning with F-PROT daemon
 
 =head1 SYNOPSIS
 
@@ -288,7 +288,7 @@ port, and four more above it.
 
 =head2 scan_path ( $pathname )
 
-Scan the path provided using clamd on a the configured host.
+Scan the path provided using the daemon on a the configured host.
 
 Returns an Email::VirusScan::Result object.
 
@@ -303,7 +303,9 @@ L<http://www.f-prot.com/>
 =head1 AUTHOR
 
 David Skoll (dfs@roaringpenguin.com)
+
 Dave O'Neill (dmo@roaringpenguin.com)
+
 Steffen Kaiser
 
 =head1 LICENCE AND COPYRIGHT

@@ -137,6 +137,8 @@ L<Email::VirusScan::Result>,
 
 Dave O'Neill (dmo@roaringpenguin.com)
 
+David Skoll (dfs@roaringpenguin.com)
+
 =head1 LICENCE AND COPYRIGHT
 
 Copyright (c) 2007 Roaring Penguin Software, Inc.

@@ -201,6 +201,12 @@ Required.
 This must be a fully-qualified path to the clamd socket.  Currently,
 only local clamd connections over a UNIX socket are supported.
 
+=item ping_timeout
+
+Optional.  Defaults to 5 seconds.
+
+Timeout in seconds waiting for a clamd 'PING' command to return.
+
 =item read_timeout
 
 Optional.  Defaults to 60 seconds.
@@ -218,7 +224,7 @@ Timeout in seconds for waiting for clamd socket to be writeable.
 Optional.  Default is undef.
 
 This config option can be a reference to an instance of
-Email::VirusScan::Engine object that will be used as a fallback in the
+L<Email::VirusScan::Engine> object that will be used as a fallback in the
 event that clamd returns a 'zip module failure' error.
 
 =back
@@ -243,6 +249,7 @@ L<http://www.clamav.net/>
 =head1 AUTHOR
 
 David Skoll (dfs@roaringpenguin.com)
+
 Dave O'Neill (dmo@roaringpenguin.com)
 
 =head1 LICENCE AND COPYRIGHT

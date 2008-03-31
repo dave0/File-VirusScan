@@ -86,3 +86,14 @@ Return all result objects for which ->is_virus is false
 =head1 SEE ALSO
 
 L<Data::ResultSet>, L<Email::VirusScan::Result>
+
+=head1 AUTHOR
+
+Dave O'Neill (dmo@roaringpenguin.com)
+
+=head1 LICENCE AND COPYRIGHT
+
+Copyright (c) 2007 Roaring Penguin Software, Inc.
+
+This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.

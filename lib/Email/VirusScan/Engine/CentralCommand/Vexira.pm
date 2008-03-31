@@ -127,7 +127,9 @@ L<http://www.centralcommand.com/ts/dl/pdf/scanner_en_vexira.pdf>
 =head1 AUTHOR
 
 David Skoll (dfs@roaringpenguin.com)
+
 Dave O'Neill (dmo@roaringpenguin.com)
+
 John Rowan Littell
 
 =head1 LICENCE AND COPYRIGHT
