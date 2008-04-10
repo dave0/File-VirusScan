@@ -1,14 +1,14 @@
 Revision history for Email-VirusScan
 
-0.011	Tue, 25 Mar 2008
-	(bugfix) :: wasn't allowed in plugin class names. 
+0.011_01  Tue, 25 Mar 2008
+          (bugfix) :: wasn't allowed in plugin class names.
 
-0.010	Thu, 13 Mar 2008
-	Migrate scanner support for all non-obsolete scanners from MIMEDefang
+0.010     Thu, 13 Mar 2008
+          Migrate scanner support for all non-obsolete scanners from MIMEDefang
 
-0.002	Fri, 04 May 2007
-	Moved Email::VirusScan::Base to Email::VirusScan::Engine
-	Moved ClamAV engine to beneath Email::VirusScan::Engine namespace
+0.002     Fri, 04 May 2007
+          Moved Email::VirusScan::Base to Email::VirusScan::Engine
+          Moved ClamAV engine to beneath Email::VirusScan::Engine namespace
 
-0.001	Mon, 30 Apr 2007
-	First cut.  Unreleased.
+0.001     Mon, 30 Apr 2007
+          First cut.  Unreleased.
