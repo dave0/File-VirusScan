@@ -18,6 +18,8 @@ lib/Email/VirusScan/Engine/CommandAntivirus.pm
 lib/Email/VirusScan/Engine/ESET/NOD32.pm
 lib/Email/VirusScan/Engine/FPROT/Command.pm
 lib/Email/VirusScan/Engine/FPROT/Daemon.pm
+lib/Email/VirusScan/Engine/FPROT/DaemonV4.pm
+lib/Email/VirusScan/Engine/FPROT/DaemonV6.pm
 lib/Email/VirusScan/Engine/FSecure/FSAV.pm
 lib/Email/VirusScan/Engine/Kaspersky/AVP5.pm
 lib/Email/VirusScan/Engine/Kaspersky/Kavscanner.pm
@@ -46,7 +48,8 @@ t/email-virusscan-trivial.t
 t/engine-base-class.t
 t/eset-nod32.t
 t/fprot-command.t
-t/fprot-daemon.t
+t/fprot-daemon-v4.t
+t/fprot-daemon-v6.t
 t/fsecure-fsav.t
 t/kaspersky-avp5.t
 t/kaspersky-kavscanner.t

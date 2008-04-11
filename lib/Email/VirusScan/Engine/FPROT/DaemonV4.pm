@@ -1,4 +1,4 @@
-package Email::VirusScan::Engine::FPROT::Daemon;
+package Email::VirusScan::Engine::FPROT::DaemonV4;
 use strict;
 use warnings;
 use Carp;
@@ -189,6 +189,7 @@ sub _scan_path
 		# any filesystem error less than zero,
 		# interrupted
 		if($code < 3 || $code == 5) {
+			#w
 			## assume this a temporary failure
 			$errmsg = "Scan error #$code: $msg";
 			last SEARCH_DEMON;
@@ -236,14 +237,14 @@ __END__
 
 =head1 NAME
 
-Email::VirusScan::Engine::FPROT::Daemon - Email::VirusScan backend for scanning with F-PROT daemon
+Email::VirusScan::Engine::FPROT::DaemonV4 - Email::VirusScan backend for scanning with F-PROT daemon, version 4
 
 =head1 SYNOPSIS
 
     use Email::VirusScanner;
     my $s = Email::VirusScanner->new({
 	engines => {
-		'-FPROT::Daemon' => {
+		'-FPROT::DaemonV4' => {
 			host      => '127.0.0.1',
 			base_port => 10200,
 		},
