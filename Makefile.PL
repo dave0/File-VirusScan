@@ -17,9 +17,11 @@ requires 'Scalar::Util';
 requires 'Email::Abstract';
 requires 'Data::ResultSet';
 
-# Required for some scanners, but not all
-recommends 'IO::Socket::INET';
-recommends 'IO::Socket::UNIX';
-recommends 'IO::Select';
+# Required for some scanners, but not all.  However, if we don't make it a
+# 'requires', automated tests fail on some platforms.
+requires 'IO::Socket::INET';
+requires 'IO::Socket::UNIX';
+requires 'IO::Select';
+requires 'HTML::TokeParser';
 
 WriteAll;
