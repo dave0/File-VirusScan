@@ -29,6 +29,7 @@ lib/Email/VirusScan/Engine/Sophos/Savscan.pm
 lib/Email/VirusScan/Engine/Sophos/Sophie.pm
 lib/Email/VirusScan/Engine/Sophos/Sweep.pm
 lib/Email/VirusScan/Engine/Symantec/CSS.pm
+lib/Email/VirusScan/Engine/Trend/Trophie.pm
 lib/Email/VirusScan/Engine/Trend/Vscan.pm
 lib/Email/VirusScan/Result.pm
 lib/Email/VirusScan/ResultSet.pm
@@ -63,4 +64,5 @@ t/sophos-savscan.t
 t/sophos-sophie.t
 t/sophos-sweep.t
 t/symantec-css.t
+t/trend-trophie.t
 t/trend-vscan.t

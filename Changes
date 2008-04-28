@@ -1,5 +1,8 @@
 Revision history for Email-VirusScan
 
+0.011_02
+          (feature) Add support for Trophie scanner
+
 0.011_01  Tue, 25 Mar 2008
           (bugfix) :: wasn't allowed in plugin class names.
 
@@ -12,3 +15,5 @@ Revision history for Email-VirusScan
 
 0.001     Mon, 30 Apr 2007
           First cut.  Unreleased.
+
+vim: et sw=8 ts=8
