@@ -9,9 +9,9 @@ use Test::More;
 use Test::Exception;
 use File::Temp ();
 
-use Email::VirusScan::Engine::BitDefender::BDC;
+use File::VirusScan::Engine::BitDefender::BDC;
 
-sub under_test { 'Email::VirusScan::Engine::BitDefender::BDC' };
+sub under_test { 'File::VirusScan::Engine::BitDefender::BDC' };
 sub required_arguments {
 	{ command => 'bdc' }
 }

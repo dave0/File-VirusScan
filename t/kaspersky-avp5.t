@@ -9,9 +9,9 @@ use Test::More;
 use Test::Exception;
 use File::Temp ();
 
-use Email::VirusScan::Engine::Kaspersky::AVP5;
+use File::VirusScan::Engine::Kaspersky::AVP5;
 
-sub under_test { 'Email::VirusScan::Engine::Kaspersky::AVP5' };
+sub under_test { 'File::VirusScan::Engine::Kaspersky::AVP5' };
 sub required_arguments {
 	{ command => 'aveclient' }
 }

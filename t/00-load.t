@@ -3,7 +3,7 @@
 use Test::More tests => 1;
 
 BEGIN {
-	use_ok( 'Email::VirusScan' );
+	use_ok( 'File::VirusScan' );
 }
 
-diag( "Testing Email::VirusScan $Email::VirusScan::VERSION, Perl $], $^X" );
+diag( "Testing File::VirusScan $File::VirusScan::VERSION, Perl $], $^X" );

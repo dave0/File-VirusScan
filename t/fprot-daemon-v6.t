@@ -9,9 +9,9 @@ use Test::More;
 use Test::Exception;
 use File::Temp ();
 
-use Email::VirusScan::Engine::FPROT::DaemonV6;
+use File::VirusScan::Engine::FPROT::DaemonV6;
 
-sub under_test { 'Email::VirusScan::Engine::FPROT::DaemonV6' };
+sub under_test { 'File::VirusScan::Engine::FPROT::DaemonV6' };
 sub required_arguments {
 	{ host => '127.0.0.1' }
 }

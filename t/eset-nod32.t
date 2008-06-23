@@ -9,9 +9,9 @@ use Test::More;
 use Test::Exception;
 use File::Temp ();
 
-use Email::VirusScan::Engine::ESET::NOD32;
+use File::VirusScan::Engine::ESET::NOD32;
 
-sub under_test { 'Email::VirusScan::Engine::ESET::NOD32' };
+sub under_test { 'File::VirusScan::Engine::ESET::NOD32' };
 sub required_arguments {
 	{ command => 'esets_cli' }
 }

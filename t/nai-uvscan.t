@@ -9,9 +9,9 @@ use Test::More;
 use Test::Exception;
 use File::Temp ();
 
-use Email::VirusScan::Engine::NAI::Uvscan;
+use File::VirusScan::Engine::NAI::Uvscan;
 
-sub under_test { 'Email::VirusScan::Engine::NAI::Uvscan' };
+sub under_test { 'File::VirusScan::Engine::NAI::Uvscan' };
 sub required_arguments {
 	{ command => 'uvscan' }
 }

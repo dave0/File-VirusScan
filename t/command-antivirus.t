@@ -9,9 +9,9 @@ use Test::More;
 use Test::Exception;
 use File::Temp ();
 
-use Email::VirusScan::Engine::CommandAntivirus;
+use File::VirusScan::Engine::CommandAntivirus;
 
-sub under_test { 'Email::VirusScan::Engine::CommandAntivirus' };
+sub under_test { 'File::VirusScan::Engine::CommandAntivirus' };
 sub required_arguments {
 	{ command => 'csav' }
 }

@@ -9,9 +9,9 @@ use Test::More;
 use Test::Exception;
 use File::Temp ();
 
-use Email::VirusScan::Engine::Sophos::Sweep;
+use File::VirusScan::Engine::Sophos::Sweep;
 
-sub under_test { 'Email::VirusScan::Engine::Sophos::Sweep' };
+sub under_test { 'File::VirusScan::Engine::Sophos::Sweep' };
 sub required_arguments {
 	{ command => 'sweep' }
 }

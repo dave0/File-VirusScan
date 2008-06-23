@@ -9,9 +9,9 @@ use Test::More;
 use Test::Exception;
 use File::Temp ();
 
-use Email::VirusScan::Engine::ClamAV::Clamscan;
+use File::VirusScan::Engine::ClamAV::Clamscan;
 
-sub under_test { 'Email::VirusScan::Engine::ClamAV::Clamscan' };
+sub under_test { 'File::VirusScan::Engine::ClamAV::Clamscan' };
 sub required_arguments {
 	{ command => 'clamscan' }
 }

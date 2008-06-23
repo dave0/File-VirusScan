@@ -4,7 +4,7 @@ use warnings;
 use Test::Class;
 use Test::More;
 use Test::Exception;
-use Email::Abstract;
+use File::Temp ();
 
 use base qw( Test::Class );
 
@@ -34,7 +34,7 @@ sub _00_constructor : Test(setup => 2)
 		$self->required_arguments()
 	);
 
-	isa_ok( $self->{engine}, 'Email::VirusScan::Engine');
+	isa_ok( $self->{engine}, 'File::VirusScan::Engine');
 	isa_ok( $self->{engine}, $tclass);
 }
 
@@ -42,7 +42,7 @@ sub expected_methods : Test(1)
 {
 	my ($self) = @_;
 
-	can_ok( $self->under_test, qw( new scan scan_path ) );
+	can_ok( $self->under_test, qw( new scan ) );
 }
 
 sub scan_bogus_directory : Test(3)
@@ -50,8 +50,8 @@ sub scan_bogus_directory : Test(3)
 	my ($self) = @_;
 	my $s = $self->engine;
 
-	my $result = $s->scan_path('t/');
-	isa_ok( $result, 'Email::VirusScan::Result');
+	my $result = $s->scan('t/');
+	isa_ok( $result, 'File::VirusScan::Result');
 	ok( $result->is_error(), 'Result is an error' );
 	is( $result->get_data(), 'Path t/ is not absolute', '... with expected text');
 }
@@ -68,8 +68,8 @@ sub scan_empty_directory : Test(3)
 	# Try with fully-qualified path
 	my $testdir = File::Temp::tempdir( TMPDIR => 1, CLEANUP => 1);
 	chmod 0755, $testdir;
-	lives_ok { $result = $s->scan_path( $testdir) } "scan_path($testdir) lives";
-	isa_ok( $result, 'Email::VirusScan::Result');
+	lives_ok { $result = $s->scan( $testdir) } "scan($testdir) lives";
+	isa_ok( $result, 'File::VirusScan::Result');
 	ok( $result->is_clean(), 'Result is clean' );
 	if( ! $result->is_clean() ) {
 		diag( $result->get_data() );
@@ -85,20 +85,13 @@ sub scan_eicar : Test(3)
 	my $s = $self->engine;
 	my $result;
 
-	no warnings 'redefine';
-	# If Email::VirusScan::Engine creates a temporary file, clamd
-	# may not be able to read it with default permissions.  So,
-	# force the file to be public for this test.
-	local *Email::VirusScan::Engine::tempfile = sub {
-		use File::Temp;
-		my ($fh, $path) = File::Temp::tempfile();
-		chmod 0644, $path;
-		return ($fh, $path);
-	};
-	use warnings 'redefine';
+	my ($fh, $path) = File::Temp::tempfile( TMPDIR => 1, UNLINK => 1 );
+	chmod 0644, $path;
 
 	my $msg = $self->eicar_message();
-	lives_ok { $result = $s->scan( $msg ) } 'Scanning eicar message lives';
+	$fh->print($msg);
+	$fh->close();
+	lives_ok { $result = $s->scan( $path ) } 'Scanning eicar message lives';
 	ok( $result->is_virus(), 'Result is a virus' );
 	is( $result->get_data(), 'Eicar-Test-Signature', '... with expected text');
 	if( ! $result->is_virus() ) {
@@ -141,7 +134,7 @@ END
 --EuxKj2iCbKjpUGkD--
 END
 
-	return Email::Abstract->new($msg);
+	return $msg;
 }
 
 1;

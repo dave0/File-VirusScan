@@ -9,9 +9,9 @@ use Test::More;
 use Test::Exception;
 use File::Temp ();
 
-use Email::VirusScan::Engine::Trend::Trophie;
+use File::VirusScan::Engine::Trend::Trophie;
 
-sub under_test { 'Email::VirusScan::Engine::Trend::Trophie' };
+sub under_test { 'File::VirusScan::Engine::Trend::Trophie' };
 sub required_arguments {
 	{ socket_name => '/var/spool/MIMEDefang/trophie' }
 }

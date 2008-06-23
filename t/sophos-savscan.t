@@ -9,9 +9,9 @@ use Test::More;
 use Test::Exception;
 use File::Temp ();
 
-use Email::VirusScan::Engine::Sophos::Savscan;
+use File::VirusScan::Engine::Sophos::Savscan;
 
-sub under_test { 'Email::VirusScan::Engine::Sophos::Savscan' };
+sub under_test { 'File::VirusScan::Engine::Sophos::Savscan' };
 sub required_arguments {
 	{ command => 'savscan' }
 }

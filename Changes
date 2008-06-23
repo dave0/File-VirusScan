@@ -1,4 +1,7 @@
-Revision history for Email-VirusScan
+Revision history for File-VirusScan
+
+0.100_01 Mon, 23 Jun 2008 11:24:19 -0400
+        Rename to File::VirusScan
 
 0.011_02
           (feature) Add support for Trophie scanner

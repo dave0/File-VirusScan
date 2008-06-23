@@ -8,12 +8,12 @@ use Test::More;
 use Test::Exception;
 use File::Temp ();
 
-use Email::VirusScan::Engine;
+use File::VirusScan::Engine;
 
 sub list_files : Test(8)
 {
 	my ($self) = @_;
-	my $s = 'Email::VirusScan::Engine';
+	my $s = 'File::VirusScan::Engine';
 
 	my $dir = File::Temp::tempdir( CLEANUP => 1 );	
 

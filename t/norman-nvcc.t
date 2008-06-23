@@ -9,9 +9,9 @@ use Test::More;
 use Test::Exception;
 use File::Temp ();
 
-use Email::VirusScan::Engine::Norman::NVCC;
+use File::VirusScan::Engine::Norman::NVCC;
 
-sub under_test { 'Email::VirusScan::Engine::Norman::NVCC' };
+sub under_test { 'File::VirusScan::Engine::Norman::NVCC' };
 sub required_arguments {
 	{ command => 'nvcc' }
 }

@@ -2,8 +2,8 @@ use strict;
 use warnings;
 use inc::Module::Install;
 
-name	 'Email-VirusScan';
-all_from 'lib/Email/VirusScan.pm';
+name	 'File-VirusScan';
+all_from 'lib/File/VirusScan.pm';
 
 build_requires 'Test::More';
 build_requires 'Test::Class';
@@ -14,7 +14,6 @@ requires 'File::Temp';
 requires 'IO::File';
 requires 'IO::Dir';
 requires 'Scalar::Util';
-requires 'Email::Abstract';
 requires 'Data::ResultSet';
 
 # Required for some scanners, but not all.  However, if we don't make it a

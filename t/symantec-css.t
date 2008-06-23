@@ -9,9 +9,9 @@ use Test::More;
 use Test::Exception;
 use File::Temp ();
 
-use Email::VirusScan::Engine::Symantec::CSS;
+use File::VirusScan::Engine::Symantec::CSS;
 
-sub under_test { 'Email::VirusScan::Engine::Symantec::CSS' };
+sub under_test { 'File::VirusScan::Engine::Symantec::CSS' };
 sub required_arguments {
 	{ 
 		host => '127.0.0.1',

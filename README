@@ -1,7 +1,7 @@
-Email-VirusScan
+File-VirusScan
 
-This class provides a common API for scanning email objects with one or more
-virus scanning engines.
+This class provides a common API for scanning files or directories with one or
+more virus scanning engines.
 
 INSTALLATION
 
@@ -17,21 +17,21 @@ SUPPORT AND DOCUMENTATION
 
 After installing, you can find documentation for this module with the perldoc command.
 
-    perldoc Email::VirusScan
+    perldoc File::VirusScan
 
 You can also look for information at:
 
     Search CPAN
-        http://search.cpan.org/dist/Email-VirusScan
+        http://search.cpan.org/dist/File-VirusScan
 
     CPAN Request Tracker:
-        http://rt.cpan.org/NoAuth/Bugs.html?Dist=Email-VirusScan
+        http://rt.cpan.org/NoAuth/Bugs.html?Dist=File-VirusScan
 
     AnnoCPAN, annotated CPAN documentation:
-        http://annocpan.org/dist/Email-VirusScan
+        http://annocpan.org/dist/File-VirusScan
 
     CPAN Ratings:
-        http://cpanratings.perl.org/d/Email-VirusScan
+        http://cpanratings.perl.org/d/File-VirusScan
 
 COPYRIGHT AND LICENCE
 

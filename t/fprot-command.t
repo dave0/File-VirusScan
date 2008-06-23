@@ -9,9 +9,9 @@ use Test::More;
 use Test::Exception;
 use File::Temp ();
 
-use Email::VirusScan::Engine::FPROT::Command;
+use File::VirusScan::Engine::FPROT::Command;
 
-sub under_test { 'Email::VirusScan::Engine::FPROT::Command' };
+sub under_test { 'File::VirusScan::Engine::FPROT::Command' };
 sub required_arguments {
 	{ command => 'f-prot' }
 }
