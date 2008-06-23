@@ -3,15 +3,15 @@ use strict;
 use warnings;
 use Carp;
 
+my @STATES = qw( clean error virus suspicious );
+__PACKAGE__->_make_accessors(@STATES);
+
 sub new
 {
 	my ($class, $args) = @_;
 	my $self = {
-
-		# TODO: really should be a subclass instead of is_whatever
-		is_virus => $args->{is_virus} || 0,
-		is_error => $args->{is_error} || 0,
-		data     => $args->{data},
+		state => $args->{state} || 'clean',
+		data  => $args->{data},
 	};
 	return bless $self, $class;
 }
@@ -21,8 +21,8 @@ sub error
 	my ($class, $err) = @_;
 	return $class->new(
 		{
-			is_error => 1,
-			data     => $err,
+			state => 'error',
+			data  => $err,
 		}
 	);
 }
@@ -32,8 +32,8 @@ sub virus
 	my ($class, $vname) = @_;
 	return $class->new(
 		{
-			is_virus => 1,
-			data     => $vname,
+			state => 'virus',
+			data  => $vname,
 		}
 	);
 }
@@ -41,25 +41,13 @@ sub virus
 sub clean
 {
 	my ($class) = @_;
-	return $class->new({});
+	return $class->new({ state => 'clean', });
 }
 
-sub is_virus
+sub get_state
 {
 	my ($self) = @_;
-	return $self->{is_virus};
-}
-
-sub is_error
-{
-	my ($self) = @_;
-	return $self->{is_error};
-}
-
-sub is_clean
-{
-	my ($self) = @_;
-	return !($self->{is_virus} || $self->{is_error});
+	return $self->{state};
 }
 
 sub get_data
@@ -68,12 +56,32 @@ sub get_data
 	return $self->{data};
 }
 
+
+# Generate is_XXX accessors for all valid states
+sub _make_accessors
+{
+	my ($class, @methods) = @_;
+	no strict 'refs';  ## no critic (ProhibitNoStrict)
+	foreach my $name (@methods) {
+		my $wrappername = "${class}::is_${name}";
+		if(!defined &{$wrappername}) {
+			*{$wrappername} = sub {
+				my ($self) = @_;
+				return ($self->{state} eq $name);
+			};
+		}
+	}
+
+	use strict 'refs';
+}
+
+
 1;
 __END__
 
 =head1 NAME
 
-Email::VirusScan::Result - <One line description of module's purpose>
+Email::VirusScan::Result - Results from a single virus scanner
 
 =head1 SYNOPSIS
 
@@ -121,17 +129,37 @@ Main constructor.
 
 =head1 INSTANCE METHODS
 
+=head2 get_state ( )
+
+Return the state of this result object.  Valid states are:
+
+=over 4
+
+=item clean
+
+=item error
+
+=item virus
+
+=item suspicious
+
+=back
+
 =head2 is_clean ( )
 
-Returns true if neither is_error nor is_virus was set.
+Returns true if state is set to 'clean'
 
 =head2 is_error ( )
 
-Returns true if is_error flag was set by constructor.
+Returns true if state is set to 'error'
 
 =head2 is_virus ( )
 
-Returns true if is_virus flag was set by constructor.
+Returns true if state is set to 'virus'
+
+=head2 is_suspicious ( )
+
+Returns true if state is set to 'suspicious'
 
 =head2 get_data ( )
 
