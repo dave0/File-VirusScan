@@ -74,6 +74,12 @@ sub scan
 	return $result;
 }
 
+sub get_backends
+{
+	my ($self) = @_;
+	return $self->{_backends};
+}
+
 1;
 __END__
 
@@ -246,6 +252,10 @@ Invokes the configured scan backends on the path.  The path may be
 either a single file, or a directory.
 
 Returns an File::VirusScan::ResultSet object, which can be queried for status.
+
+=head2 get_backends ( )
+
+Returns a reference to the internal array of configured backend instances.
 
 =head1 DEPENDENCIES
 
