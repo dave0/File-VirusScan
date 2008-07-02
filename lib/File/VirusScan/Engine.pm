@@ -6,26 +6,6 @@ use Carp;
 use IO::Dir;
 use IO::File;
 
-sub _run_commandline_scanner
-{
-	my ($self, $command, $match) = @_;
-
-	$match = '.*' unless defined $match;
-
-	my $fh = IO::File->new("$command |");
-	unless ($fh) {
-		die "Could not execute '$command': $!";
-	}
-
-	my $msg;
-	while (<$fh>) {
-		$msg .= $_ if /$match/oi;
-	}
-	$fh->close;
-
-	return ($? >> 8, $msg);
-}
-
 sub list_files
 {
 	my ($self, $path) = @_;
@@ -71,6 +51,36 @@ File::VirusScan::Engine - Engine class for File::VirusScan backends
 
 File::VirusScan::Engine provides a base class and utility methods for
 implementing File::VirusScan support for various virus scanners.
+
+Backend engine classes are named with the format:
+
+File::VirusScan::Engine::I<(Daemon | Command)>::I<Vendor>::I<Product>
+
+where I<Daemon> or I<Command> specifies whether or not this speaks
+directly to a daemon, or invokes a commandline interface, and I<Vendor>
+and I<Product> are the names of the product as of the writing of these
+modules.
+
+Note that
+
+=over 4
+
+=item *
+
+Some backends use their own commandline tool to speak to a scanning
+daemon.  These are implemented under Command, not Daemon, as we need to
+invoke an external binary and parse commandline output to interpret the
+results.
+
+=item *
+
+Vendor and product names may change more frequently than the interfaces
+to those products.  The names used here are correct as of the writing
+of this package.
+
+=back
+
+=cut
 
 =head1 INSTANCE METHODS
 

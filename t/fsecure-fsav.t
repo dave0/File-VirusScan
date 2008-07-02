@@ -9,9 +9,9 @@ use Test::More;
 use Test::Exception;
 use File::Temp ();
 
-use File::VirusScan::Engine::FSecure::FSAV;
+use File::VirusScan::Engine::Command::FSecure::FSAV;
 
-sub under_test { 'File::VirusScan::Engine::FSecure::FSAV' };
+sub under_test { 'File::VirusScan::Engine::Command::FSecure::FSAV' };
 sub required_arguments {
 	{ command => 'fsav' }
 }

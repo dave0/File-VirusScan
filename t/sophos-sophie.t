@@ -9,9 +9,9 @@ use Test::More;
 use Test::Exception;
 use File::Temp ();
 
-use File::VirusScan::Engine::Sophos::Sophie;
+use File::VirusScan::Engine::Daemon::Sophos::Sophie;
 
-sub under_test { 'File::VirusScan::Engine::Sophos::Sophie' };
+sub under_test { 'File::VirusScan::Engine::Daemon::Sophos::Sophie' };
 sub required_arguments {
 	{ socket_name => '/var/spool/MIMEDefang/sophie' }
 }

@@ -9,9 +9,9 @@ use Test::More;
 use Test::Exception;
 use File::Temp ();
 
-use File::VirusScan::Engine::CentralCommand::Vexira;
+use File::VirusScan::Engine::Command::CentralCommand::Vexira;
 
-sub under_test { 'File::VirusScan::Engine::CentralCommand::Vexira' };
+sub under_test { 'File::VirusScan::Engine::Command::CentralCommand::Vexira' };
 sub required_arguments {
 	{ command => 'vexira' }
 }

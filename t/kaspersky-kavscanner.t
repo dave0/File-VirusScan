@@ -9,9 +9,9 @@ use Test::More;
 use Test::Exception;
 use File::Temp ();
 
-use File::VirusScan::Engine::Kaspersky::Kavscanner;
+use File::VirusScan::Engine::Command::Kaspersky::Kavscanner;
 
-sub under_test { 'File::VirusScan::Engine::Kaspersky::Kavscanner' };
+sub under_test { 'File::VirusScan::Engine::Command::Kaspersky::Kavscanner' };
 sub required_arguments {
 	{ command => 'kavscanner' }
 }

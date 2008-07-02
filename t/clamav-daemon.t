@@ -9,9 +9,9 @@ use Test::More;
 use Test::Exception;
 use File::Temp ();
 
-use File::VirusScan::Engine::ClamAV::Daemon;
+use File::VirusScan::Engine::Daemon::ClamAV::Clamd;
 
-sub under_test { 'File::VirusScan::Engine::ClamAV::Daemon' };
+sub under_test { 'File::VirusScan::Engine::Daemon::ClamAV::Clamd' };
 sub required_arguments {
 	{ socket_name => '/var/run/clamav/clamd.ctl' }
 }

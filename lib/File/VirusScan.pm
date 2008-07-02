@@ -91,20 +91,20 @@ File::VirusScan - Unified interface for virus scanning of files/directories
 
     my $scanner = File::VirusScan->new({
 	engines => {
-		'ClamAV::Daemon' => {
+		'-Daemon::ClamAV::Clamd' => {
 			socket_name => '/var/run/clamav/clamd.ctl',
 		},
-		'FSecure' => {
+		'-Command::FSecure::FSAV' => {
 			path   => '/usr/local/bin/fsav
 		},
-		'FProtD' => {
+		'-Daemon::FPROT::V6' => {
 			host   => '127.0.0.1',
 			port   => 10200,
 		}
 
 	},
 
-	order => [ 'ClamAV::Daemon', 'FProtD', 'FSecure' ],
+	order => [ '-Daemon::ClamAV::Clamd', '-Daemon::FPROT::V6', '-Command::FSecure::FSAV' ],
 
 	always_scan => 0,
     });
@@ -130,62 +130,65 @@ the following plugins are shipped with File::VirusScan:
 
 =item Clam Antivirus
 
-Scanning daemon via L<File::VirusScan::Engine::ClamAV::Daemon>, and
-commandline scanner via L<File::VirusScan::Engine::ClamAV::Clamscan>
+Scanning daemon via L<File::VirusScan::Engine::Daemon::ClamAV::Clamd>, and
+commandline scanner via L<File::VirusScan::Engine::Command::ClamAV::Clamscan>
 
 =item NAI UVScan
 
-L<File::VirusScan::Engine::NAI::Uvscan>
+L<File::VirusScan::Engine::Command::NAI::Uvscan>
 
 =item F-Secure FSAV
 
-L<File::VirusScan::Engine::FSecure::FSAV>
+L<File::VirusScan::Engine::Command::FSecure::FSAV>
 
-=item Trend Micro Vscan
+=item Trend Micro
 
-L<File::VirusScan::Engine::Trend::Vscan>
+Scanning daemon via L<File::VirusScan::Engine::Daemon::Trend::Trophie>,
+commandline scanning via
+L<File::VirusScan::Engine::Command::Trend::Vscan>
 
 =item BitDefender BDC
 
-L<File::VirusScan::Engine::BitDefender::BDC>
+L<File::VirusScan::Engine::Command::BitDefender::BDC>
 
 =item Command Antivirus
 
-L<File::VirusScan::Engine::CommandAntivirus>
+L<File::VirusScan::Engine::Command::Authentium::CommandAntivirus>
 
 =item Norman Antivirus
 
-L<File::VirusScan::Engine::Norman::NVCC>
+L<File::VirusScan::Engine::Command::Norman::NVCC>
 
 =item ESET
 
-Scanning via esets_cli with L<File::VirusScan::Engine::ESET::NOD32>
+Scanning via esets_cli with L<File::VirusScan::Engine::Command::ESET::NOD32>
 
 =item Symantec
 
-Scanning via Carrier Scan server with L<File::VirusScan::Engine::Symantec::CSS>
+Scanning via Carrier Scan server with L<File::VirusScan::Engine::Daemon::Symantec::CSS>
 
 =item F-PROT
 
-Scanning daemon via L<File::VirusScan::Engine::FPROT::Daemon>, and
-commandline scanner via L<File::VirusScan::Engine::FPROT::Command>
+Scanning daemon via L<File::VirusScan::Engine::Daemon::FPROT::V4> and
+L<File::VirusScan::Engine::Daemon::FPROT::V6>, as well as the
+commandline scanner via L<File::VirusScan::Engine::Command::FPROT::FPROT>
 
 =item Central Command Vexira
 
-L<File::VirusScan::Engine::CentralCommand::Vexira>
+L<File::VirusScan::Engine::Command::CentralCommand::Vexira>
 
 =item Sophos
 
 Daemonized scanning using the Sophie daemon with
-L<File::VirusScan::Engine::Sophos::Sophie>.  Commandline scanning with
-L<File::VirusScan::Engine::Sophos::Sweep> or
-L<File::VirusScan::Engine::Sophos::Savscan>
+L<File::VirusScan::Engine::Daemon::Sophos::Sophie>.  Commandline scanning with
+L<File::VirusScan::Engine::Command::Sophos::Sweep> or
+L<File::VirusScan::Engine::Command::Sophos::Savscan>
 
 =item Kaspersky
 
 Scanning with aveserver using
-L<File::VirusScan::Engine::Kaspersky::AVP5>, or with kavscanner using
-L<File::VirusScan::Engine::Kaspersky::Kavscanner>
+L<File::VirusScan::Engine::Command::Kaspersky::AVP5>, or with kavscanner using
+L<File::VirusScan::Engine::Command::Kaspersky::Kavscanner>
 
 =back
 

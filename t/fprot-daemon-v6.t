@@ -1,4 +1,4 @@
-package TestVirusScan::FPROT::DaemonV6;
+package TestVirusScan::FPROT::V6;
 use strict;
 use warnings;
 
@@ -9,9 +9,9 @@ use Test::More;
 use Test::Exception;
 use File::Temp ();
 
-use File::VirusScan::Engine::FPROT::DaemonV6;
+use File::VirusScan::Engine::Daemon::FPROT::V6;
 
-sub under_test { 'File::VirusScan::Engine::FPROT::DaemonV6' };
+sub under_test { 'File::VirusScan::Engine::Daemon::FPROT::V6' };
 sub required_arguments {
 	{ host => '127.0.0.1' }
 }

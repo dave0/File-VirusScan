@@ -1,4 +1,4 @@
-package TestVirusScan::Kaspersky::AVP5;
+package TestVirusScan::CommandAntivirus;
 use strict;
 use warnings;
 
@@ -9,11 +9,11 @@ use Test::More;
 use Test::Exception;
 use File::Temp ();
 
-use File::VirusScan::Engine::Command::Kaspersky::AVP5;
+use File::VirusScan::Engine::Command::Authentium::CommandAntivirus;
 
-sub under_test { 'File::VirusScan::Engine::Command::Kaspersky::AVP5' };
+sub under_test { 'File::VirusScan::Engine::Command::Authentium::CommandAntivirus' };
 sub required_arguments {
-	{ command => 'aveclient' }
+	{ command => 'csav' }
 }
 
 sub testable_live

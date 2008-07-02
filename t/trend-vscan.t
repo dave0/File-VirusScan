@@ -9,9 +9,9 @@ use Test::More;
 use Test::Exception;
 use File::Temp ();
 
-use File::VirusScan::Engine::Trend::Vscan;
+use File::VirusScan::Engine::Command::Trend::Vscan;
 
-sub under_test { 'File::VirusScan::Engine::Trend::Vscan' };
+sub under_test { 'File::VirusScan::Engine::Command::Trend::Vscan' };
 sub required_arguments {
 	{ command => 'vscan' }
 }
