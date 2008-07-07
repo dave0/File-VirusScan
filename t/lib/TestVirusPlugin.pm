@@ -56,6 +56,20 @@ sub scan_bogus_directory : Test(3)
 	is( $result->get_data(), 'Path t/ is not absolute', '... with expected text');
 }
 
+sub is_testable : Test(1)
+{
+	my ($self) = @_;
+
+	if( ! $self->testable_live ) {
+		my $shortname = $self->under_test();
+		$shortname =~ s/^File::VirusScan::Engine::/.../;
+		diag( "Scanner for $shortname not found.  Live tests will be skipped");
+		return 'Could not run live test';
+	} else {
+		pass( $self->under_test() . ' appears to be testable live');
+	}
+}
+
 sub scan_empty_directory : Test(3)
 {
 	my ($self) = @_;
