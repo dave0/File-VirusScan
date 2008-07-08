@@ -6,7 +6,7 @@ use Carp;
 use File::VirusScan::Result;
 use File::VirusScan::ResultSet;
 
-our $VERSION = '0.100_01';
+our $VERSION = '0.100_02';
 
 # We don't use Module::Pluggable.  Most users of this module will have
 # one or two virus scanners, with the other half-dozen or so plugins

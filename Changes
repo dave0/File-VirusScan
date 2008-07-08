@@ -1,5 +1,9 @@
 Revision history for File-VirusScan
 
+0.100_02 Tue, 08 Jul 2008 12:56:43 -0400 
+          Move developer tests to xt/ directory, to keep automated testers from
+          barfing on perlcritic errors.
+
 0.100_01 Mon, 23 Jun 2008 11:24:19 -0400
           Rename to File::VirusScan
           Classify scanners into Daemon or Command classes
