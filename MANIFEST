@@ -1,6 +1,7 @@
 .perltidyrc
 Changes
 inc/Module/Install.pm
+inc/Module/Install/AuthorTests.pm
 inc/Module/Install/Base.pm
 inc/Module/Install/Can.pm
 inc/Module/Install/Fetch.pm
@@ -39,10 +40,6 @@ MANIFEST
 META.yml
 README
 t/00-load.t
-t/01-pod.t
-t/02-kwalitee.t
-t/02-pod-coverage.t
-t/03-perlcritic.t
 t/authentium-command-antivirus.t
 t/bitdefender-bdc.t
 t/centralcommand-vexira.t
@@ -67,3 +64,7 @@ t/sophos-sweep.t
 t/symantec-css.t
 t/trend-trophie.t
 t/trend-vscan.t
+xt/01-pod.t
+xt/02-kwalitee.t
+xt/02-pod-coverage.t
+xt/03-perlcritic.t
