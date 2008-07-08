@@ -57,7 +57,6 @@ t/kaspersky-kavscanner.t
 t/lib/TestVirusPlugin.pm
 t/nai-uvscan.t
 t/norman-nvcc.t
-t/perlcriticrc
 t/sophos-savscan.t
 t/sophos-sophie.t
 t/sophos-sweep.t
@@ -68,3 +67,4 @@ xt/01-pod.t
 xt/02-kwalitee.t
 xt/02-pod-coverage.t
 xt/03-perlcritic.t
+xt/perlcriticrc
