@@ -226,8 +226,8 @@ File::VirusScan::Engine::Daemon::Symantec::CSS - File::VirusScan backend for sca
 
 =head1 SYNOPSIS
 
-    use File::VirusScanner;
-    my $s = File::VirusScanner->new({
+    use File::VirusScan;
+    my $s = File::VirusScan->new({
 	engines => {
 		'-Daemon::Symantec::CSS' => {
 			host => '127.0.0.1',

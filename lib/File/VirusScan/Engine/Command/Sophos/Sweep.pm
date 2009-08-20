@@ -77,8 +77,8 @@ File::VirusScan::Engine::Command::Sophos::Sweep - File::VirusScan backend for sc
 
 =head1 SYNOPSIS
 
-    use File::VirusScanner;
-    my $s = File::VirusScanner->new({
+    use File::VirusScan;
+    my $s = File::VirusScan->new({
 	engines => {
 		'-Command::Sophos::Sweep' => {
 			command => '/path/to/sweep',

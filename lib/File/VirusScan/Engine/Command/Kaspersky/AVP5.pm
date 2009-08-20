@@ -98,8 +98,8 @@ File::VirusScan::Engine::Command::Kaspersky::AVP5 - File::VirusScan backend for 
 
 =head1 SYNOPSIS
 
-    use File::VirusScanner;
-    my $s = File::VirusScanner->new({
+    use File::VirusScan;
+    my $s = File::VirusScan->new({
 	engines => {
 		'-Command::Kaspersky::AVP5' => {
 			command => '/path/to/aveclient',

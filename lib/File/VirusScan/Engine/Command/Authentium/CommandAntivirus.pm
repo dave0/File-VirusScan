@@ -88,8 +88,8 @@ File::VirusScan::Engine::Command::Authentium::CommandAntivirus - File::VirusScan
 
 =head1 SYNOPSIS
 
-    use File::VirusScanner;
-    my $s = File::VirusScanner->new({
+    use File::VirusScan;
+    my $s = File::VirusScan->new({
 	engines => {
 		'-Command::Authentium::CommandAntivirus' => {
 			command => '/path/to/scan/command',

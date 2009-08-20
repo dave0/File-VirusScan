@@ -167,8 +167,8 @@ File::VirusScan::Engine::Daemon::ClamAV::Clamd - File::VirusScan backend for sca
 
 =head1 SYNOPSIS
 
-    use File::VirusScanner;
-    my $s = File::VirusScanner->new({
+    use File::VirusScan;
+    my $s = File::VirusScan->new({
 	engines => {
 		'-Daemon::ClamAV::Clamd' => {
 			socket_name => '/path/to/clamd.ctl',

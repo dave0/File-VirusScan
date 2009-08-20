@@ -76,8 +76,8 @@ File::VirusScan::Engine::Command::CentralCommand::Vexira - File::VirusScan backe
 
 =head1 SYNOPSIS
 
-    use File::VirusScanner;
-    my $s = File::VirusScanner->new({
+    use File::VirusScan;
+    my $s = File::VirusScan->new({
 	engines => {
 		'-Command::CentralCommand::Vexira' => {
 			command => '/path/to/vexira',

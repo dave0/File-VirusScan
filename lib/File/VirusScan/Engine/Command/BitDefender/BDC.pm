@@ -66,8 +66,8 @@ File::VirusScan::Engine::Command::BitDefender::BDC - File::VirusScan backend for
 
 =head1 SYNOPSIS
 
-    use File::VirusScanner;
-    my $s = File::VirusScanner->new({
+    use File::VirusScan;
+    my $s = File::VirusScan->new({
 	engines => {
 		'-Command::BitDefender::BDC' => {
 			command => '/path/to/bdc',

@@ -65,8 +65,8 @@ File::VirusScan::Engine::Command::ESET::NOD32 - File::VirusScan backend for scan
 
 =head1 SYNOPSIS
 
-    use File::VirusScanner;
-    my $s = File::VirusScanner->new({
+    use File::VirusScan;
+    my $s = File::VirusScan->new({
 	engines => {
 		'-Command::ESET::NOD32' => {
 			command => '/path/to/esets_cli',

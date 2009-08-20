@@ -65,8 +65,8 @@ File::VirusScan::Engine::Command::Trend::Vscan - File::VirusScan backend for sca
 
 =head1 SYNOPSIS
 
-    use File::VirusScanner;
-    my $s = File::VirusScanner->new({
+    use File::VirusScan;
+    my $s = File::VirusScan->new({
 	engines => {
 		'-Command::Trend::Vscan' => {
 			command => '/path/to/fprot',

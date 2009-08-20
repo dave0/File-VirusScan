@@ -70,8 +70,8 @@ File::VirusScan::Engine::Command::Norman::NVCC - File::VirusScan backend for sca
 
 =head1 SYNOPSIS
 
-    use File::VirusScanner;
-    my $s = File::VirusScanner->new({
+    use File::VirusScan;
+    my $s = File::VirusScan->new({
 	engines => {
 		'-Command::Norman::NVCC' => {
 			command => '/path/to/nvcc',

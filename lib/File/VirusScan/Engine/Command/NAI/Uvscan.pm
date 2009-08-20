@@ -124,8 +124,8 @@ File::VirusScan::Engine::Command::NAI::Uvscan - File::VirusScan backend for scan
 
 =head1 SYNOPSIS
 
-    use File::VirusScanner;
-    my $s = File::VirusScanner->new({
+    use File::VirusScan;
+    my $s = File::VirusScan->new({
 	engines => {
 		'Command::NAI::Uvscan' => {
 			command => '/path/to/uvscan',

@@ -195,8 +195,8 @@ File::VirusScan::Engine::Daemon::FPROT::V6 - File::VirusScan backend for scannin
 
 =head1 SYNOPSIS
 
-    use File::VirusScanner;
-    my $s = File::VirusScanner->new({
+    use File::VirusScan;
+    my $s = File::VirusScan->new({
 	engines => {
 		'-Daemon::FPROT::V6' => {
 			host      => '127.0.0.1',
