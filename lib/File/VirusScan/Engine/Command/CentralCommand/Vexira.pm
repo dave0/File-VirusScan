@@ -11,20 +11,9 @@ use Cwd 'abs_path';
 
 use File::VirusScan::Result;
 
-sub new
+sub default_arguments
 {
-	my ($class, $conf) = @_;
-
-	if(!$conf->{command}) {
-		croak "Must supply a 'command' config value for $class";
-	}
-
-	my $self = {
-		command => $conf->{command},
-		args    => [ '-qqq', '--log=/dev/null', '--all-files', '-as' ],
-	};
-
-	return bless $self, $class;
+	return [qw(-qqq --log=/dev/null --all-files -as)];
 }
 
 sub scan

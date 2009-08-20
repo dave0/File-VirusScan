@@ -11,20 +11,9 @@ use Cwd 'abs_path';
 
 use File::VirusScan::Result;
 
-sub new
+sub default_arguments
 {
-	my ($class, $conf) = @_;
-
-	if(!$conf->{command}) {
-		croak "Must supply a 'command' config value for $class";
-	}
-
-	my $self = {
-		command => $conf->{command},
-		args    => [ '-e', 'PASBME', '-o', 'syslog', '-i0' ],
-	};
-
-	return bless $self, $class;
+	return [ qw( -e PASBME -o syslog -i0 ) ];
 }
 
 sub scan

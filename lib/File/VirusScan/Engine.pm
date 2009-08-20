@@ -6,6 +6,8 @@ use Carp;
 use IO::Dir;
 use IO::File;
 
+use base qw( Class::Accessor::Fast );
+
 sub list_files
 {
 	my ($self, $path) = @_;

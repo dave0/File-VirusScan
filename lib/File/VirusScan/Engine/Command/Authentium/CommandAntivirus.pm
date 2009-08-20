@@ -13,22 +13,6 @@ use Cwd 'abs_path';
 
 use File::VirusScan::Result;
 
-sub new
-{
-	my ($class, $conf) = @_;
-
-	if(!$conf->{command}) {
-		croak "Must supply a 'command' config value for $class";
-	}
-
-	my $self = {
-		command => $conf->{command},
-		args    => [],
-	};
-
-	return bless $self, $class;
-}
-
 sub scan
 {
 	my ($self, $path) = @_;

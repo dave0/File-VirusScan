@@ -1,10 +1,32 @@
 package File::VirusScan::Engine::Command;
 use strict;
 use warnings;
+use Carp;
 
 use File::VirusScan::Engine;
 use vars qw( @ISA );
 @ISA = qw( File::VirusScan::Engine );
+
+__PACKAGE__->follow_best_practice();
+__PACKAGE__->mk_accessors( qw( command args ) );
+
+sub new
+{
+	my ($class, $conf) = @_;
+
+	if(!$conf->{command}) {
+		croak "Must supply a 'command' config value for $class";
+	}
+
+	$conf->{args} ||= $class->default_arguments();
+
+	return $class->SUPER::new( $conf );
+}
+
+sub default_arguments
+{
+	return [ ];
+}
 
 sub _run_commandline_scanner
 {
@@ -43,6 +65,20 @@ File::VirusScan::Engine::Command - File::VirusScan::Engine class for command-lin
 
 File::VirusScan::Engine::Command provides a base class and utility methods for
 implementing File::VirusScan support for commandline virus scanners
+
+=head1 CLASS METHODS
+
+=head2 new ( $config )
+
+Constructor.  $config is a hashref with the following required values:
+
+=over 4
+
+=item command
+
+The full path to the commandline scanner to use for this engine.
+
+=back
 
 =head1 INSTANCE METHODS
 
