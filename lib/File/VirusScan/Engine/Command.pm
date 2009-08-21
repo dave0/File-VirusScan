@@ -18,7 +18,11 @@ sub new
 		croak "Must supply a 'command' config value for $class";
 	}
 
+	# TODO document
 	$conf->{args} ||= $class->default_arguments();
+	if( exists $conf->{'+args'} ) {
+		push @{$conf->{args}}, @{ delete $conf->{'+args'} };
+	}
 
 	return $class->SUPER::new( $conf );
 }
