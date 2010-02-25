@@ -2,6 +2,7 @@ package File::VirusScan;
 use strict;
 use warnings;
 use Carp;
+use 5.008;
 
 use File::VirusScan::Result;
 use File::VirusScan::ResultSet;
