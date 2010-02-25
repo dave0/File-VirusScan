@@ -4,6 +4,7 @@ use inc::Module::Install;
 
 name	 'File-VirusScan';
 all_from 'lib/File/VirusScan.pm';
+license  'gpl';
 
 build_requires 'Test::More';
 build_requires 'Test::Class';

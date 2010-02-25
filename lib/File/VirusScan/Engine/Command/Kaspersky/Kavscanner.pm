@@ -125,5 +125,5 @@ Dave O'Neill (dmo@roaringpenguin.com)
 
 Copyright (c) 2007 Roaring Penguin Software, Inc.
 
-This program is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself.
+this program is free software; you can redistribute it and/or modify it
+under the terms of the gpl, version 2 or later.
