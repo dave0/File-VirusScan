@@ -32,7 +32,7 @@ sub list_files : Test(8)
 	mkdir "$dir/subdir";
 	mkdir "$dir/subdir/subsubdir";
 	`touch $dir/subdir/subsubdir/file2`; # I am stil lazy
-	@files = $s->list_files( $dir );
+	@files = sort $s->list_files( $dir );
 	is( scalar @files, 2, 'Two files total below directory');
 	is( $files[0], "$dir/file1", '... correct name for first');
 	is( $files[1], "$dir/subdir/subsubdir/file2", '... correct name for second');
