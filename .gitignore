@@ -1,4 +1,6 @@
 *~
+.*.swp
+inc/
 Makefile.old
 Makefile
 blib
