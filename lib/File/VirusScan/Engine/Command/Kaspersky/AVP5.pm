@@ -147,4 +147,5 @@ Enrico Ansaloni
 Copyright (c) 2007 Roaring Penguin Software, Inc.
 
 This program is free software; you can redistribute it and/or modify it
-under the terms of the GPL, version 2 or later.
+under the terms of the GNU General Public License, version 2, or
+(at your option) any later version.
