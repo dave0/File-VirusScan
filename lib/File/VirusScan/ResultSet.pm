@@ -5,7 +5,7 @@ use vars qw( @ISA );
 use Data::ResultSet;
 @ISA = qw( Data::ResultSet );
 
-__PACKAGE__->make_wrappers(qw( is_virus is_error is_clean ));
+__PACKAGE__->make_wrappers(qw( is_virus is_error is_clean is_suspicious ));
 
 1;
 __END__
@@ -47,6 +47,10 @@ True if all results return true for ->is_error()
 
 True if all results return true for ->is_clean()
 
+=head2 all_suspicious ( )
+
+True if all results return true for ->is_suspicious()
+
 =head2 has_virus ( )
 
 True if at least one result returns true for ->is_virus()
@@ -58,6 +62,10 @@ True if at least one result returns true for ->is_error()
 =head2 has_clean ( )
 
 True if at least one result returns true for ->is_clean()
+
+=head2 has_suspicious ( )
+
+True if at least one result returns true for ->is_suspicious()
 
 =head2 get_clean ( )
 
@@ -82,6 +90,14 @@ Return all result objects for which ->is_virus is true
 =head2 get_not_virus ( )
 
 Return all result objects for which ->is_virus is false
+
+=head2 get_suspicious ( )
+
+Return all result objects for which ->is_suspicious is true
+
+=head2 get_not_suspicious ( )
+
+Return all result objects for which ->is_suspicious is false
 
 =head1 SEE ALSO
 

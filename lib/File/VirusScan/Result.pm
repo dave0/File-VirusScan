@@ -38,6 +38,17 @@ sub virus
 	);
 }
 
+sub suspicious
+{
+	my ($class, $what) = @_;
+	return $class->new(
+		{
+			state => 'suspicious',
+			data  => $what,
+		}
+	);
+}
+
 sub clean
 {
 	my ($class) = @_;
@@ -116,12 +127,16 @@ Create a new object, with no flags set and no data.
 
 =head2 error ( $error_message )
 
-Create a new object with is_error flag set, and data set to
+Create a new object with state set to 'error' and data set to
 $error_message.
 
 =head2 virus ( $virusname )
 
-Create a new object with is_virus flag set, and data set to $virusname.
+Create a new object with state set to 'virus', and data set to $virusname.
+
+=head2 suspicious ( $what )
+
+Create a new object with state set to 'suspicious', and data set to $what.
 
 =head2 new ( \%data )
 
