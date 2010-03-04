@@ -172,7 +172,7 @@ Scanning via Carrier Scan server with L<File::VirusScan::Engine::Daemon::Symante
 
 Scanning daemon via L<File::VirusScan::Engine::Daemon::FPROT::V4> and
 L<File::VirusScan::Engine::Daemon::FPROT::V6>, as well as the
-commandline scanner via L<File::VirusScan::Engine::Command::FPROT::FPROT>
+commandline scanners via L<File::VirusScan::Engine::Command::FPROT::FPROT> and L<File::VirusScan::Engine::Command::FPROT::Fpscan>
 
 =item Central Command Vexira
 
