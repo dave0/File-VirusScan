@@ -1,27 +1,44 @@
 Revision history for File-VirusScan
 
-0.100_02 Tue, 08 Jul 2008 12:56:43 -0400 
-          Move developer tests to xt/ directory, to keep automated testers from
-          barfing on perlcritic errors.
+0.102	Mon, 10 May 2010 13:18:11 -0400
 
-0.100_01 Mon, 23 Jun 2008 11:24:19 -0400
-          Rename to File::VirusScan
-          Classify scanners into Daemon or Command classes
+	(clamd) Use proper session protocol when communicating with
+		clamd
+
+	(clamd) Check for both the standard clamd sock, and the
+		MIMEDefang one when running tests
+
+	(feature) Allow results to handle "suspicious" state
+
+	(fpscan) Implement fpscan support (based on MIMEDefang)
+
+
+0.101	Thu Feb 25 12:31:11 2010 -0500
+
+	Rename to File::VirusScan
+
+	Classify scanners into Daemon or Command classes
+
+	(licensing) Remove all references to artistic license; spell out GPL license
+		more explicitly.  This brings us back into compliance with the
+		original source we forked from MIMEDefang.
+
+	(tests) Move developer tests to xt/ directory, to keep automated testers from
+		barfing on perlcritic errors.
 
 0.011_02
-          (feature) Add support for Trophie scanner
+	(feature) Add support for Trophie scanner
 
-0.011_01  Tue, 25 Mar 2008
-          (bugfix) :: wasn't allowed in plugin class names.
+0.011_01 Tue, 25 Mar 2008
+	(bugfix) :: wasn't allowed in plugin class names.
 
-0.010     Thu, 13 Mar 2008
-          Migrate scanner support for all non-obsolete scanners from MIMEDefang
+0.010	Thu, 13 Mar 2008
+	Migrate scanner support for all non-obsolete scanners from MIMEDefang
 
-0.002     Fri, 04 May 2007
-          Moved Email::VirusScan::Base to Email::VirusScan::Engine
-          Moved ClamAV engine to beneath Email::VirusScan::Engine namespace
+0.002	Fri, 04 May 2007
+	Moved Email::VirusScan::Base to Email::VirusScan::Engine
+	Moved ClamAV engine to beneath Email::VirusScan::Engine namespace
 
-0.001     Mon, 30 Apr 2007
-          First cut.  Unreleased.
+0.001	Mon, 30 Apr 2007
+	First cut.  Unreleased.
 
-vim: et sw=8 ts=8
