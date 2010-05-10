@@ -71,7 +71,7 @@ sub scan
 		return File::VirusScan::result->error("Timeout waiting to write PING to clamd daemon at $self->{socket_name}");
 	}
 
-	if(!$sock->print("SESSION\nPING\n")) {
+	if(!$sock->print("nIDSESSION\nnPING\n")) {
 		$sock->close;
 		return File::VirusScan::Result->error('Could not ping clamd');
 	}
@@ -92,7 +92,7 @@ sub scan
 		return File::VirusScan::Result->error('Did not get ping response from clamd');
 	}
 
-	if(!defined $ping_response || $ping_response ne "PONG\n") {
+	if(!defined $ping_response || $ping_response ne "1: PONG\n") {
 		$sock->close;
 		return File::VirusScan::Result->error('Did not get ping response from clamd');
 	}
@@ -102,7 +102,7 @@ sub scan
 		return File::VirusScan::result->error("Timeout waiting to write SCAN to clamd daemon at $self->{socket_name}");
 	}
 
-	if(!$sock->print("SCAN $path\n")) {
+	if(!$sock->print("nSCAN $path\n")) {
 		$sock->close;
 		return File::VirusScan::Result->error("Could not get clamd to scan $path");
 	}
@@ -128,17 +128,21 @@ sub scan
 	}
 
 	# End session
-	my $rc = $sock->print("END\n");
+	my $rc = $sock->print("nEND\n");
 	$sock->close();
 	if(!$rc) {
 		return File::VirusScan::Result->error("Could not get clamd to scan $path");
 	}
 
+	my ($id, $file, $status) = $scan_response =~ m/(\d+):\s+([^:]+):\s+(.*)/;
+	if( ! $id ) {
+		return File::VirusScan::Result->error("IDSESSION response didn't contain an ID");
+	}
 	# TODO: what if more than one virus found?
 	# TODO: can/should we capture infected filenames?
-	if($scan_response =~ m/: (.+) FOUND/) {
+	if($status =~ m/(.+) FOUND/) {
 		return File::VirusScan::Result->virus($1);
-	} elsif($scan_response =~ m/: (.+) ERROR/) {
+	} elsif($scan_response =~ m/(.+) ERROR/) {
 		my $err_detail = $1;
 
 		# The clam daemon may not understand certain zip files,
