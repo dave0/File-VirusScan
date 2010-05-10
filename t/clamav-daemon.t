@@ -12,8 +12,13 @@ use File::Temp ();
 use File::VirusScan::Engine::Daemon::ClamAV::Clamd;
 
 sub under_test { 'File::VirusScan::Engine::Daemon::ClamAV::Clamd' };
-sub required_arguments {
-	{ socket_name => '/var/run/clamav/clamd.ctl' }
+sub required_arguments
+{
+	my @possible_sock = qw(
+		/var/run/clamav/clamd.ctl
+		/var/spool/MIMEDefang/clamd.sock
+	);
+	return { socket_name => (grep { -S $_ } @possible_sock)[0] }
 }
 
 sub testable_live
